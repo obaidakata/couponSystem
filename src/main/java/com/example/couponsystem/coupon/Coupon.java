@@ -1,7 +1,6 @@
 package com.example.couponsystem.coupon;
 
 import com.example.couponsystem.category.eCategory;
-import com.example.couponsystem.company.Company;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -45,6 +44,11 @@ public class Coupon
         this.amount = amount;
         this.price = price;
         this.image = image;
+    }
+
+    public Coupon(int companyID)
+    {
+        this.companyID = companyID;
     }
 
     public Coupon()

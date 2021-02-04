@@ -1,13 +1,10 @@
 package com.example.couponsystem.company;
 
-import com.example.couponsystem.category.eCategory;
-import com.example.couponsystem.coupon.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompanyService
@@ -20,8 +17,9 @@ public class CompanyService
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> getCompanies()
+    public List<Company> getAllCompanies()
     {
         return companyRepository.findAll();
     }
+
 }

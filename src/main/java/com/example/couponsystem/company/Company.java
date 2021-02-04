@@ -2,26 +2,37 @@ package com.example.couponsystem.company;
 
 import com.example.couponsystem.coupon.Coupon;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 
+@Entity
+@Table(name="COMPANIES")
 public class Company
 {
+    @Id
+    @SequenceGenerator(
+            name = "company_sequence",
+            sequenceName = "company_sequence",
+            allocationSize = 1
+    )
+
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "company_sequence"
+    )
+
     private int id;
     private String name;
     private String email;
     private String password;
 
+    @Transient
     private ArrayList<Coupon> coupons;
 
-    public Company()
+    public Company(String name, String email, String password, ArrayList<Coupon>  coupons)
     {
-
-    }
-
-    public Company(int id, String name, String email, String password, ArrayList<Coupon> coupons)
-    {
-        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -40,6 +51,11 @@ public class Company
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public Company()
+    {
+
     }
 
     public int getId()
@@ -82,12 +98,12 @@ public class Company
         this.password = password;
     }
 
-    public ArrayList<Coupon> getCoupons()
+    public ArrayList<Coupon>  getCoupons()
     {
         return coupons;
     }
 
-    public void setCoupons(ArrayList<Coupon> coupons)
+    public void setCoupons(ArrayList<Coupon>  coupons)
     {
         this.coupons = coupons;
     }
