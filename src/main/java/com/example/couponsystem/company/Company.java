@@ -46,6 +46,12 @@ public class Company
         this.email = email;
         this.password = password;
     }
+
+    public Company(int id)
+    {
+        this.id = id;
+    }
+
     public Company(String name, String email, String password)
     {
         this.name = name;
