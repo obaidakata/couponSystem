@@ -1,4 +1,4 @@
-package com.example.couponsystem.utils.customExceptions;
+package com.example.couponsystem.customExceptions;
 
 public class ConnectionException extends Exception
 {

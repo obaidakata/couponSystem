@@ -1,6 +1,6 @@
 package com.example.couponsystem.services;
 
-import com.example.couponsystem.utils.customExceptions.Logger;
+import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.CompanyRepository;
 import com.example.couponsystem.tables.Coupon;
@@ -8,10 +8,10 @@ import com.example.couponsystem.tables.CouponRepository;
 import com.example.couponsystem.tables.Customer;
 import com.example.couponsystem.tables.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
 @Service
 public class AdminService extends ClientService
 {
@@ -19,15 +19,8 @@ public class AdminService extends ClientService
     private final String adminPassword="admin";
     private Logger logger = new Logger();
 
-    @Autowired
-    public AdminService(
-            CompanyRepository companyRepository,
-            CouponRepository couponRepository,
-            CustomerRepository customerRepository)
+    public AdminService()
     {
-        this.companyRepository = companyRepository;
-        this.couponRepository = couponRepository;
-        this.customerRepository = customerRepository;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.example.couponsystem.services;
 
 import com.example.couponsystem.tables.Customer;
 import com.example.couponsystem.tables.CustomerRepository;
-import com.example.couponsystem.utils.customExceptions.Logger;
+import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.tables.CompanyRepository;
 import com.example.couponsystem.tables.Coupon;
@@ -21,15 +21,8 @@ public class CustomerService extends ClientService
     private int customerId;
     private Logger logger = new Logger();
 
-    @Autowired
-    public CustomerService(
-            CompanyRepository companyRepository,
-            CouponRepository couponRepository,
-            CustomerRepository customerRepository)
+    public CustomerService()
     {
-        this.companyRepository = companyRepository;
-        this.couponRepository = couponRepository;
-        this.customerRepository = customerRepository;
     }
 
     public boolean login(String email, String password)
