@@ -188,5 +188,9 @@ public class AdminService extends ClientService
         return customer;
     }
 
+    public Company getCompanyByName(String name)
+    {
+        return companyRepository.findCompanyByName(name);
+    }
 
 }

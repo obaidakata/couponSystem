@@ -1,17 +1,14 @@
 package com.example.couponsystem.services;
 
 import com.example.couponsystem.tables.Company;
-import com.example.couponsystem.tables.CompanyRepository;
 import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.tables.Coupon;
-import com.example.couponsystem.tables.CouponRepository;
-import com.example.couponsystem.tables.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -22,9 +19,7 @@ public class CompanyService extends ClientService
     private Logger logger = new Logger();
 
 
-    public CompanyService()
-    {
-    }
+    public CompanyService(){}
 
     @Override
     public boolean login(String email, String password)
@@ -51,12 +46,24 @@ public class CompanyService extends ClientService
             int couponCompanyId = couponToAdd.getCompaniesID();
             Company company = companyRepository.findCompanyById(couponCompanyId);
             boolean isCouponExistsInCompany = false;
-            for(Coupon companyCoupon : company.getCoupons())
+            if(company != null)
             {
-                if(companyCoupon.getTitle().equals(couponToAdd.getTitle()))
+//                Reading coupons from tables without reading the coupons so the company coupons is still empty
+                ArrayList<Coupon> companyCoupons = company.getCoupons();
+                if(companyCoupons != null)
                 {
-                    isCouponExistsInCompany = true;
-                    break;
+                    for(Coupon companyCoupon : companyCoupons)
+                    {
+                        if(companyCoupon.getTitle().equals(couponToAdd.getTitle()))
+                        {
+                            isCouponExistsInCompany = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    company.setCoupons(new ArrayList<Coupon>(List.of(couponToAdd)));
                 }
             }
 

@@ -1,28 +1,28 @@
-package com.example.couponsystem.controllers;
-
-import com.example.couponsystem.services.CompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping(path="api/v1/company")
-public class CompanyController
-{
-    private final CompanyService companyService;
-
-    @Autowired
-    public CompanyController(CompanyService companyService)
-    {
-        this.companyService = companyService;
-    }
-
+//package com.example.couponsystem.controllers;
+//
+//import com.example.couponsystem.services.CompanyService;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@RequestMapping(path="api/v1/company")
+//public class CompanyController
+//{
+//    private final CompanyService companyService;
+//
+//    @Autowired
+//    public CompanyController(CompanyService companyService)
+//    {
+//        this.companyService = companyService;
+//    }
+//
 //    @RequestMapping(path="{email}/{password}")
 //    public String isCompanyExists(
 //            @PathVariable("email") String email,
 //            @PathVariable("password") String password)
 //    {
 //
-//        return companyService.isCompanyExistsByEmailAndPassword(email, password)?"True":"False";
+//        return companyService.
 //    }
 //
 //    @PostMapping
@@ -55,4 +55,4 @@ public class CompanyController
 //    {
 //        return companyService.getOneCompany(companyId);
 //    }
-}
+//}

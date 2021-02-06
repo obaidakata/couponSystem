@@ -1,13 +1,9 @@
 package com.example.couponsystem.services;
 
 import com.example.couponsystem.tables.Customer;
-import com.example.couponsystem.tables.CustomerRepository;
 import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
-import com.example.couponsystem.tables.CompanyRepository;
 import com.example.couponsystem.tables.Coupon;
-import com.example.couponsystem.tables.CouponRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

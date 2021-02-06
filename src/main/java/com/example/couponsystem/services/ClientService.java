@@ -7,12 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class ClientService
 {
-    @Autowired
+
     protected CompanyRepository companyRepository;
-    @Autowired
     protected CouponRepository couponRepository;
-    @Autowired
     protected CustomerRepository customerRepository;
 
     public abstract boolean login(String email, String password);
+
+    @Autowired
+    public final void setCompanyRepository(CompanyRepository companyRepository)
+    {
+        this.companyRepository = companyRepository;
+    }
+
+    @Autowired
+    public final void setCouponRepository(CouponRepository couponRepository)
+    {
+        this.couponRepository = couponRepository;
+    }
+
+    @Autowired
+    public final void setCustomerRepository(CustomerRepository customerRepository)
+    {
+        this.customerRepository = customerRepository;
+    }
 }
