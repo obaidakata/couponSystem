@@ -1,4 +1,4 @@
-package com.example.couponsystem.category;
+package com.example.couponsystem.enums;
 
 public enum eCategory
 {

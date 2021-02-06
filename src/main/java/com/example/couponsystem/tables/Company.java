@@ -1,29 +1,17 @@
-package com.example.couponsystem.company;
-
-import com.example.couponsystem.coupon.Coupon;
+package com.example.couponsystem.tables;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Set;
 
 
 @Entity
-@Table(name="COMPANIES")
+@Table(name="companies")
 public class Company
 {
     @Id
-    @SequenceGenerator(
-            name = "company_sequence",
-            sequenceName = "company_sequence",
-            allocationSize = 1
-    )
-
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "company_sequence"
-    )
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String email;
     private String password;

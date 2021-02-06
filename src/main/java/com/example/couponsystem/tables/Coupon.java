@@ -1,42 +1,52 @@
-package com.example.couponsystem.coupon;
+package com.example.couponsystem.tables;
 
-import com.example.couponsystem.category.eCategory;
+import com.example.couponsystem.enums.eCategory;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
-@Table
+@Table(name="coupons")
 public class Coupon
 {
     @Id
-    @SequenceGenerator(
-            name = "coupon_sequence",
-            sequenceName = "coupon_sequence",
-            allocationSize = 1
-    )
-
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "coupon_sequence"
-    )
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int companyID;
-    private eCategory category;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "start_date")
     private LocalDate startDate;
+
+    @Column(name = "end_date")
     private LocalDate endDate;
+
+    @Column(name = "amount")
     private int amount;
+
+    @Column(name = "PRICE")
     private double price;
+
+    @Column(name = "image")
     private String image;
 
-    public Coupon(int companyID, eCategory category, String title, String description, LocalDate startDate, LocalDate endDate, int amount, double price, String image)
+    @Column(name = "companies_id")
+    private int companiesId;
+
+    @Column(name = "categories_id")
+    private eCategory categoryId;
+
+
+
+
+    public Coupon(int companiesID, eCategory categoryId, String title, String description, LocalDate startDate, LocalDate endDate, int amount, double price, String image)
     {
-        this.companyID = companyID;
-        this.category = category;
+        this.companiesId = companiesID;
+        this.categoryId = categoryId;
         this.title = title;
         this.description = description;
         this.startDate = startDate;
@@ -46,9 +56,9 @@ public class Coupon
         this.image = image;
     }
 
-    public Coupon(int companyID)
+    public Coupon(int companiesID)
     {
-        this.companyID = companyID;
+        this.companiesId = companiesID;
     }
 
     public Coupon()
@@ -60,7 +70,7 @@ public class Coupon
     @Override
     public String toString()
     {
-        return "Coupon{" + "id=" + id + ", companyID=" + companyID + ", category=" + category + ", title='" + title + '\'' + ", description='" + description + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", amount=" + amount + ", price=" + price + ", image='" + image + '\'' + '}';
+        return "Coupon{" + "id=" + id + ", companyID=" + companiesId + ", category=" + categoryId + ", title='" + title + '\'' + ", description='" + description + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", amount=" + amount + ", price=" + price + ", image='" + image + '\'' + '}';
     }
 
     public int getId()
@@ -73,24 +83,24 @@ public class Coupon
         this.id = id;
     }
 
-    public int getCompanyID()
+    public int getCompaniesID()
     {
-        return companyID;
+        return companiesId;
     }
 
-    public void setCompanyID(int companyID)
+    public void setCompaniesID(int companyID)
     {
-        this.companyID = companyID;
+        this.companiesId = companyID;
     }
 
-    public eCategory getCategory()
+    public eCategory getCategoryId()
     {
-        return category;
+        return categoryId;
     }
 
-    public void setCategory(eCategory category)
+    public void setCategoryId(eCategory category)
     {
-        this.category = category;
+        this.categoryId = category;
     }
 
     public String getTitle()
@@ -161,5 +171,13 @@ public class Coupon
     public void setImage(String image)
     {
         this.image = image;
+    }
+
+    public void purchase()
+    {
+        if(amount > 0)
+        {
+            amount--;
+        }
     }
 }
