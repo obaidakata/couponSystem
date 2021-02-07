@@ -21,9 +21,10 @@ public final class Singleton<T extends Object>
                 {
                     try
                     {
-                        Constructor[] constructors =  c.getConstructors();
+                        Constructor[] constructors =  c.getDeclaredConstructors();
                         for(Constructor constructor : constructors)
                         {
+                            constructor.setAccessible(true);
                             if(constructor.getParameterCount() == 0)
                             {
                                 instance = constructor.newInstance(null);
