@@ -104,10 +104,10 @@ public class Company
 
     @Override
     public String toString() {
-        return "\nCompany id : " + id +
-                "\n\tname= " + name +
-                "\n\temail= " + email  +
-                "\n\tpassword =" + password +
-                "\n\tcoupons = " + coupons +"\n";
+        return "Company id : " + id +
+                "\tname= " + name +
+                "\temail= " + email  +
+                "\tpassword =" + password +
+                "\tcoupons = " + coupons +"\n";
     }
 }

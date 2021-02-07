@@ -5,15 +5,12 @@ import com.example.couponsystem.services.AdminService;
 import com.example.couponsystem.services.ClientService;
 import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.services.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.example.couponsystem.utiles.Singleton;
 
 import javax.annotation.PostConstruct;
 
 public class LoginManager
 {
-    private static LoginManager instance = null;
-
     private AdminService  adminService;
     private CompanyService companyService;
     private CustomerService customerService;
@@ -33,19 +30,11 @@ public class LoginManager
         this.customerService = customerService;
     }
 
-
-    private LoginManager()
-    {
-    }
+    private LoginManager(){}
 
     public static LoginManager getInstance()
     {
-        if(instance == null)
-        {
-            instance = new LoginManager();
-        }
-
-        return instance;
+        return Singleton.getInstance(LoginManager.class);
     }
 
     @PostConstruct
