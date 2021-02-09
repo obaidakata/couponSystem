@@ -49,8 +49,8 @@ public class CompanyService extends ClientService
             if(company != null)
             {
 //                Reading coupons from tables without reading the coupons so the company coupons is still empty
-                ArrayList<Coupon> companyCoupons = company.getCoupons();
-                if(companyCoupons != null)
+                ArrayList<Coupon> companyCoupons = couponRepository.getCouponsByCompanyID(companyId);
+                if(companyCoupons != null && !companyCoupons.isEmpty())
                 {
                     for(Coupon companyCoupon : companyCoupons)
                     {
@@ -122,10 +122,10 @@ public class CompanyService extends ClientService
 
     public ArrayList<Coupon> getCompanyCoupons()
     {
-        Company company = companyRepository.findCompanyById(companyId);
-        if(company != null)
+        ArrayList<Coupon> companyCoupons = couponRepository.getCouponsByCompanyID(companyId);
+        if(companyCoupons != null)
         {
-            return company.getCoupons();
+            return companyCoupons;
         }
         else
         {
@@ -136,12 +136,11 @@ public class CompanyService extends ClientService
 
     public ArrayList<Coupon> getCompanyCoupons(eCategory category)
     {
-        Company company = companyRepository.findCompanyById(companyId);
-        if(company != null)
+        ArrayList<Coupon> coupons = couponRepository.getCouponsByCompanyID(companyId);
+        if(coupons != null)
         {
-            ArrayList<Coupon> coupons = company.getCoupons();
             ArrayList<Coupon> filteredCoupons = coupons.stream()
-                    .filter(coupon -> coupon.getCategoryId() == category)
+                    .filter(coupon -> coupon.getCategoryID() == category)
                     .collect(toCollection(ArrayList::new));
             return filteredCoupons;
         }

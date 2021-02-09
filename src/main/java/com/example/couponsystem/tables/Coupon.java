@@ -35,18 +35,18 @@ public class Coupon
     private String image;
 
     @Column(name = "companies_id")
-    private int companiesId;
+    private int companyID;
 
     @Column(name = "categories_id")
-    private eCategory categoryId;
+    private eCategory categoryID;
 
 
 
 
-    public Coupon(int companiesID, eCategory categoryId, String title, String description, LocalDate startDate, LocalDate endDate, int amount, double price, String image)
+    public Coupon(int companiesID, eCategory categoryID, String title, String description, LocalDate startDate, LocalDate endDate, int amount, double price, String image)
     {
-        this.companiesId = companiesID;
-        this.categoryId = categoryId;
+        this.companyID = companiesID;
+        this.categoryID = categoryID;
         this.title = title;
         this.description = description;
         this.startDate = startDate;
@@ -58,7 +58,7 @@ public class Coupon
 
     public Coupon(int companiesID)
     {
-        this.companiesId = companiesID;
+        this.companyID = companiesID;
     }
 
     public Coupon()
@@ -70,7 +70,7 @@ public class Coupon
     @Override
     public String toString()
     {
-        return "Coupon{" + "id=" + id + ", companyID=" + companiesId + ", category=" + categoryId + ", title='" + title + '\'' + ", description='" + description + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", amount=" + amount + ", price=" + price + ", image='" + image + '\'' + '}';
+        return "Coupon{" + "id=" + id + ", companyID=" + companyID + ", category=" + categoryID + ", title='" + title + '\'' + ", description='" + description + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", amount=" + amount + ", price=" + price + ", image='" + image + '\'' + '}';
     }
 
     public int getId()
@@ -85,22 +85,22 @@ public class Coupon
 
     public int getCompaniesID()
     {
-        return companiesId;
+        return companyID;
     }
 
     public void setCompaniesID(int companyID)
     {
-        this.companiesId = companyID;
+        this.companyID = companyID;
     }
 
-    public eCategory getCategoryId()
+    public eCategory getCategoryID()
     {
-        return categoryId;
+        return categoryID;
     }
 
-    public void setCategoryId(eCategory category)
+    public void setCategoryID(eCategory category)
     {
-        this.categoryId = category;
+        this.categoryID = category;
     }
 
     public String getTitle()

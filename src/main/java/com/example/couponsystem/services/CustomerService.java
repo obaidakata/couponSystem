@@ -90,7 +90,7 @@ public class CustomerService extends ClientService
         {
             ArrayList<Coupon> coupons = customer.getCoupons();
             ArrayList<Coupon> filteredCoupons = coupons.stream()
-                    .filter(coupon -> coupon.getCategoryId() == category)
+                    .filter(coupon -> coupon.getCategoryID() == category)
                     .collect(toCollection(ArrayList::new));
             return filteredCoupons;
         }

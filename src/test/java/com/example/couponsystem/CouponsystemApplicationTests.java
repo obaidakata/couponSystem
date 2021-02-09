@@ -203,7 +203,8 @@ class CouponsystemApplicationTests
                 logger.log(companyService.getCompanyCoupons());
 
                 logger.log("updating Company's Coupon");
-                for(Coupon coupon :companyService.getCompanyCoupons())
+                ArrayList<Coupon> coupons = companyService.getCompanyCoupons();
+                for(Coupon coupon :coupons)
                 {
 
                     coupon.setTitle(coupon.getTitle().toLowerCase(Locale.ROOT));
