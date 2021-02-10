@@ -2,7 +2,6 @@ package com.example.couponsystem.controllers;
 
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.services.CompanyService;
-import com.example.couponsystem.services.ICompanyService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
