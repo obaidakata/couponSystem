@@ -154,6 +154,7 @@ public class AdminService extends ClientService
             for(Coupon coupon : customer.getCoupons())
             {
 //                couponRepository.deletePurchaseCouponByCouponID(coupon.getId());
+                customersVsCouponsRepository.deleteByCouponID(coupon.getId());
                 couponRepository.deleteById(coupon.getId());
             }
 

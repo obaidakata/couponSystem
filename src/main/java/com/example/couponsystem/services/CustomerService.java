@@ -4,6 +4,8 @@ import com.example.couponsystem.tables.Customer;
 import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.tables.Coupon;
+import com.example.couponsystem.tables.CustomersVsCoupons;
+import com.example.couponsystem.tables.DoublePrimaryKey;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -48,8 +50,8 @@ public class CustomerService extends ClientService
                 if(LocalDate.now().isBefore(coupon.getEndDate()))
                 {
                     coupon.purchase();
-                    couponRepository.save(coupon);
-//                    couponRepository.addCouponPurchase(customerId, couponId);
+                    couponRepository.saveAndFlush(coupon);
+                    customersVsCouponsRepository.saveAndFlush(new CustomersVsCoupons(couponId, customerId));
                     logger.log("You bought " + couponId);
                 }
                 else
@@ -61,7 +63,6 @@ public class CustomerService extends ClientService
             {
                 logger.log("Coupon " + coupon.getId() + " sold out");
             }
-
         }
         else
         {
@@ -72,15 +73,28 @@ public class CustomerService extends ClientService
     public ArrayList<Coupon> getCustomerCoupons()
     {
         Customer customer = customerRepository.findCustomerById(customerId);
+        ArrayList<Coupon> customerCoupons = new ArrayList<>();
         if(customer != null)
         {
-            return customer.getCoupons();
+            ArrayList<Integer> customerCouponsID = customersVsCouponsRepository.getCouponsIdByCustomerID(customerId);
+            if(!customerCouponsID.isEmpty())
+            {
+                for(int couponId : customerCouponsID)
+                {
+                    Coupon coupon = couponRepository.findCouponById(couponId);
+                    if(coupon != null)
+                    {
+                        customerCoupons.add(coupon);
+                    }
+                }
+            }
         }
         else
         {
             logger.log("while getting customers coupon");
-            return new ArrayList<>();
         }
+
+        return customerCoupons;
     }
 
     public ArrayList<Coupon> getCustomerCoupons(eCategory category)
@@ -88,11 +102,9 @@ public class CustomerService extends ClientService
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
         {
-            ArrayList<Coupon> coupons = customer.getCoupons();
-            ArrayList<Coupon> filteredCoupons = coupons.stream()
-                    .filter(coupon -> coupon.getCategoryID() == category)
-                    .collect(toCollection(ArrayList::new));
-            return filteredCoupons;
+            return getCustomerCoupons().stream()
+                            .filter(coupon -> coupon.getCategoryID() == category)
+                            .collect(toCollection(ArrayList::new));
         }
         else
         {
@@ -102,15 +114,12 @@ public class CustomerService extends ClientService
 
     public ArrayList<Coupon> getCustomerCoupons(double maxPrice)
     {
-        // TODO: 06/02/2021 Deal with code replication
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
         {
-            ArrayList<Coupon> coupons = customer.getCoupons();
-            ArrayList<Coupon> filteredCoupons = coupons.stream()
+            return getCustomerCoupons().stream()
                     .filter(coupon -> coupon.getPrice() <= maxPrice)
                     .collect(toCollection(ArrayList::new));
-            return filteredCoupons;
         }
         else
         {
@@ -121,7 +130,11 @@ public class CustomerService extends ClientService
     public Customer getCustomerDetails()
     {
         Customer customer = customerRepository.findCustomerById(customerId);
-        if(customer == null)
+        if(customer != null)
+        {
+            customer.setCoupons(getCustomerCoupons());
+        }
+        else
         {
             logger.log("Couldn't get the customer details");
         }

@@ -41,7 +41,19 @@ public class Coupon
     private eCategory categoryID;
 
 
-
+    public Coupon(int id, int companiesID, eCategory categoryID, String title, String description, LocalDate startDate, LocalDate endDate, int amount, double price, String image)
+    {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.amount = amount;
+        this.price = price;
+        this.image = image;
+        this.companyID = companyID;
+        this.categoryID = categoryID;
+    }
 
     public Coupon(int companiesID, eCategory categoryID, String title, String description, LocalDate startDate, LocalDate endDate, int amount, double price, String image)
     {

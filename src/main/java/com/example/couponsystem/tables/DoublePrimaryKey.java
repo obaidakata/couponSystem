@@ -13,6 +13,11 @@ public class DoublePrimaryKey implements Serializable
         this.customerID = customer;
     }
 
+    public DoublePrimaryKey()
+    {
+
+    }
+
     public int getCouponID()
     {
         return couponID;

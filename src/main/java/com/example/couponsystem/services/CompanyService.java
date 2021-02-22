@@ -47,7 +47,6 @@ public class CompanyService extends ClientService
             boolean isCouponExistsInCompany = false;
             if(company != null)
             {
-//                Reading coupons from tables without reading the coupons so the company coupons is still empty
                 ArrayList<Coupon> companyCoupons = couponRepository.getCouponsByCompanyID(companyId);
                 if(companyCoupons != null && !companyCoupons.isEmpty())
                 {
@@ -81,27 +80,30 @@ public class CompanyService extends ClientService
 
     public void updateCoupon(Coupon couponToUpdate)
     {
-        Coupon couponInDB = couponRepository.findCouponById(couponToUpdate.getId());
-
-        if(couponInDB != null)
+        if(couponToUpdate != null)
         {
-            if(couponInDB.getCompaniesID() == couponToUpdate.getCompaniesID())
+            Coupon couponInDB = couponRepository.findCouponById(couponToUpdate.getId());
+
+            if(couponInDB != null)
             {
-                logger.log(couponInDB.getTitle() + " " + couponToUpdate.getTitle());
-                if(couponInDB.getTitle().equals(couponToUpdate.getTitle()))
+                if(couponInDB.getCompaniesID() == couponToUpdate.getCompaniesID())
                 {
-                    couponRepository.save(couponToUpdate);
-                    logger.log("Coupon " + couponToUpdate.getId() + " had been updated!");
-                }
-                else
-                {
-                    logger.log("Title");
+                    logger.log(couponInDB.getTitle() + " " + couponToUpdate.getTitle());
+                    if(couponInDB.getTitle().equals(couponToUpdate.getTitle()))
+                    {
+                        couponRepository.saveAndFlush(couponToUpdate);
+                        logger.log("Coupon " + couponToUpdate.getId() + " had been updated!");
+                    }
+                    else
+                    {
+                        logger.log("Title");
+                    }
                 }
             }
-        }
-        else
-        {
-            logger.log("Couldn't find the coupon");
+            else
+            {
+                logger.log("Couldn't find the coupon");
+            }
         }
     }
 
@@ -109,7 +111,7 @@ public class CompanyService extends ClientService
     {
         if(couponRepository.existsById(couponId))
         {
-            // TODO: 06/02/2021  this.couponsDAO.deleteCouponPurchaseWithId(couponID);
+            customersVsCouponsRepository.deleteByCouponID(couponId);
             couponRepository.deleteById(couponId);
             logger.log("Deleting coupon");
         }
@@ -138,10 +140,9 @@ public class CompanyService extends ClientService
         ArrayList<Coupon> coupons = couponRepository.getCouponsByCompanyID(companyId);
         if(coupons != null)
         {
-            ArrayList<Coupon> filteredCoupons = coupons.stream()
+            return coupons.stream()
                     .filter(coupon -> coupon.getCategoryID() == category)
                     .collect(toCollection(ArrayList::new));
-            return filteredCoupons;
         }
         else
         {
@@ -151,15 +152,12 @@ public class CompanyService extends ClientService
 
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice)
     {
-        // TODO: 06/02/2021 Deal with code replication
-        Company company = companyRepository.findCompanyById(companyId);
-        if(company != null)
+        ArrayList<Coupon> coupons = couponRepository.getCouponsByCompanyID(companyId);
+        if(coupons != null)
         {
-            ArrayList<Coupon> coupons = company.getCoupons();
-            ArrayList<Coupon> filteredCoupons = coupons.stream()
+            return coupons.stream()
                     .filter(coupon -> coupon.getPrice() <= maxPrice)
                     .collect(toCollection(ArrayList::new));
-            return filteredCoupons;
         }
         else
         {
@@ -170,7 +168,11 @@ public class CompanyService extends ClientService
     public Company getCompanyDetails()
     {
         Company company = companyRepository.findCompanyById(companyId);
-        if(company == null)
+        if(company != null)
+        {
+            company.setCoupons(getCompanyCoupons());
+        }
+        else
         {
             logger.log("Couldn't get the company details");
         }

@@ -6,17 +6,26 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(DoublePrimaryKey.class)
+@Table(name = "customers_vs_coupons")
 public class CustomersVsCoupons
 {
     @Id
+    @Column(name = "COUPON_ID")
     private int couponID;
     @Id
+    @Column(name = "CUSTOMERS_ID")
     private int customerID;
 
 
     public CustomersVsCoupons()
     {
 
+    }
+
+    public CustomersVsCoupons(int couponID, int customerID)
+    {
+        this.couponID = couponID;
+        this.customerID = customerID;
     }
 
     public int getCouponID()
