@@ -2,11 +2,9 @@ package com.example.couponsystem;
 
 import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
-import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
 import com.example.couponsystem.services.AdminService;
 import com.example.couponsystem.services.CompanyService;
-import com.example.couponsystem.services.CouponService;
 import com.example.couponsystem.services.CustomerService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
@@ -15,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
@@ -23,14 +20,11 @@ import java.util.*;
 @SpringBootTest
 class CouponsystemApplicationTests
 {
-
     LoginManager loginManager;
     @Autowired
     AdminService adminService;
     @Autowired
     CompanyService companyService;
-    @Autowired
-    CouponService couponService;
     @Autowired
     CustomerService customerService;
 
@@ -42,7 +36,7 @@ class CouponsystemApplicationTests
     private void initCoupons()
     {
 
-        companiesCoupons = new HashMap<String, Coupon[]>();
+        companiesCoupons = new HashMap<>();
 
         companiesCoupons.put(
                 "KFC",
@@ -113,137 +107,61 @@ class CouponsystemApplicationTests
         loginManager.setCompanyService(companyService);
         loginManager.setCustomerService(customerService);
 
-        testAdminCreation();
         initCoupons();
-        testCompany1Start();
-        testCompany2Start();
-        testCompany3Start();
-        testCustomer1Start();
-        testCustomer2Start();
-        testCustomer3Start();
+//        testCompanyStart();
+        testCustomerStart();
         testCompanyDeletingCoupon();
         deletingClientsByAdmin();
         TestingExceptions();
 
     }
 
-
-    //    Admin Testing
-    private void testAdminCreation()
-    {
-        String email="admin@admin.com";
-        String password="admin";
-        adminService = (AdminService) loginManager.login(email, password, eClientType.Administrator);
-
-        if(adminService != null)
-        {
-            //Adding customers
-            logger.log("Adding Customers Start");
-            for(Customer customer : customers)
-            {
-                adminService.addCustomer(customer);
-            }
-            logger.log("Adding Customers Done");
-            logger.log(adminService.getAllCustomers());
-
-
-            //updating customers
-            logger.log("updating customers first name to lower case");
-            for(Customer customer : adminService.getAllCustomers())
-            {
-                customer.setFirstName(customer.getFirstName().toLowerCase(Locale.ROOT));
-                adminService.updateCustomer(customer);
-            }
-            logger.log("Customer update Done");
-            logger.log(adminService.getAllCustomers());
-
-
-            //Adding Companies
-
-            logger.log("Adding Companies Start");
-            for(Company company : companies)
-            {
-                adminService.addCompany(company);
-            }
-            logger.log("Adding Companies Done");
-            logger.log(adminService.getAllCompanies());
-
-            //updating Companies
-            for(Company company : adminService.getAllCompanies())
-            {
-                company.setName(company.getName().toLowerCase(Locale.ROOT));
-                company.setPassword(company.getPassword().toUpperCase(Locale.ROOT));
-            }
-            logger.log("Company update Done");
-            logger.log(adminService.getAllCustomers());
-        }
-        else
-        {
-            logger.log("AdminService is null");
-        }
-    }
-
     //    Company Testing
-    private void testCompany1Start()
+    private void testCompanyStart()
     {
-        int test = 1;
-        for(Company company : companies)
-        {
-            logger.log(toString().formatted("Test number %d", test++));
-            logger.log(company.getName());
-            companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
-            if(companyService != null)
-            {
-                logger.log("Adding coupons to company -> Start");
-                for(Coupon coupon: companiesCoupons.get(company.getName()))
-                {
-                    companyService.addCoupon(coupon);
-                }
-                logger.log("Adding Company's Coupons -> End");
-                logger.log(companyService.getCompanyCoupons());
+//        int test = 1;
+//        for(Company company : companies)
+//        {
+//            logger.log(toString().formatted("Test number %d", test++));
+//            logger.log(company.getName());
+//            companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
+//            if(companyService != null)
+//            {
+//                logger.log("Adding coupons to company -> Start");
+//                for(Coupon coupon: companiesCoupons.get(company.getName()))
+//                {
+//                    companyService.addCoupon(coupon);
+//                }
+//                logger.log("Adding Company's Coupons -> End");
+//                logger.log(companyService.getCompanyCoupons());
+//
+//                logger.log("updating Company's Coupon");
+//                ArrayList<Coupon> coupons = companyService.getCompanyCoupons();
+//                for(Coupon coupon :coupons)
+//                {
+//
+//                    coupon.setTitle(coupon.getTitle().toLowerCase(Locale.ROOT));
+//                    coupon.setAmount(coupon.getAmount() * 10);
+//                    companyService.updateCoupon(coupon);
+//                }
+//                logger.log("updating Company's Coupon -> End");
+//                adminService.deleteCompany(company.getId());
+//            }
+//        }
+//        logger.log("printing all food coupons");
+//        logger.log(companyService.getCompanyCoupons(eCategory.Food));
+//        logger.log("Printing coupons by Max price 50");
+//        logger.log(companyService.getCompanyCoupons(50));
+//        logger.log("printing companies details");
+//        logger.log((List) companyService.getCompanyDetails());
 
-                logger.log("updating Company's Coupon");
-                ArrayList<Coupon> coupons = companyService.getCompanyCoupons();
-                for(Coupon coupon :coupons)
-                {
 
-                    coupon.setTitle(coupon.getTitle().toLowerCase(Locale.ROOT));
-                    coupon.setAmount(coupon.getAmount() * 10);
-                    companyService.updateCoupon(coupon);
-                }
-                logger.log("updating Company's Coupon -> End");
-            }
-        }
-        logger.log("printing all food coupons");
-        logger.log(companyService.getCompanyCoupons(eCategory.Food));
-        logger.log("Printing coupons by Max price 50");
-        logger.log(companyService.getCompanyCoupons(50));
-        logger.log("printing companies details");
-        logger.log((List) companyService.getCompanyDetails());
-
-    }
-
-    private void testCompany2Start()
-    {
-    }
-
-    private void testCompany3Start()
-    {
     }
 
     //    Customer Testing
-    private void testCustomer1Start()
+    private void testCustomerStart()
     {
 
-    }
-
-    private void testCustomer2Start()
-    {
-
-    }
-
-    private void testCustomer3Start()
-    {
     }
 
     //   System Testing

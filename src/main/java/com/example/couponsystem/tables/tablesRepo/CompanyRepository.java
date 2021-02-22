@@ -1,5 +1,6 @@
-package com.example.couponsystem.tables;
+package com.example.couponsystem.tables.tablesRepo;
 
+import com.example.couponsystem.tables.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,5 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>
     boolean existsCompanyByName(String name);
     boolean existsCompanyByEmail(String email);
     boolean existsCompanyByIdAndName(int companyId, String companyName);
+
 }

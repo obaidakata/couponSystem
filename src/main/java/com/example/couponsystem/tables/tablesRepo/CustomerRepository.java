@@ -1,5 +1,6 @@
-package com.example.couponsystem.tables;
+package com.example.couponsystem.tables.tablesRepo;
 
+import com.example.couponsystem.tables.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

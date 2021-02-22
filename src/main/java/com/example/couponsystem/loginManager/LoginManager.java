@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 
 public class LoginManager
 {
-    private AdminService  adminService;
+    private AdminService adminService;
     private CompanyService companyService;
     private CustomerService customerService;
 
@@ -54,11 +54,11 @@ public class LoginManager
                 break;
         }
 
-        if(clientToReturn.login(email, password))
+        if(clientToReturn != null)
         {
-            return clientToReturn;
+            clientToReturn.login(email, password);
         }
 
-        return null;
+        return clientToReturn;
     }
 }

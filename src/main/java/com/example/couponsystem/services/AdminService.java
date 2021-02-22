@@ -28,7 +28,7 @@ public class AdminService extends ClientService
         }
         else
         {
-            logger.log("Login faild");
+            logger.log("Login failed");
         }
 
         return isLoginSuccessful;
@@ -55,7 +55,6 @@ public class AdminService extends ClientService
 
     public void updateCompany(Company company)
     {
-        //check if logic is good
         if(company != null)
         {
             boolean existCompanyWithSameIDAndName = companyRepository.existsCompanyByIdAndName(company.getId(), company.getName());
@@ -75,10 +74,16 @@ public class AdminService extends ClientService
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null)
         {
-            for(Coupon coupon : company.getCoupons())
+            ArrayList<Coupon> companyCoupons = company.getCoupons();
+            if(companyCoupons != null)
             {
-//                couponRepository.deletePurchaseCouponByCouponID(coupon.getId());
-                couponRepository.deleteById(coupon.getId());
+                for(Coupon coupon : companyCoupons)
+                {
+                    int couponId = coupon.getId();
+                    //todo: check if this works
+                    customersVsCouponsRepository.deleteByCouponID(couponId);
+                    couponRepository.deleteById(couponId);
+                }
             }
 
             companyRepository.deleteById(companyId);
@@ -110,7 +115,6 @@ public class AdminService extends ClientService
 
         return company;
     }
-
 
     public void addCustomer(Customer customer)
     {

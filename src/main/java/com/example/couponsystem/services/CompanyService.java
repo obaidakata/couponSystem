@@ -13,11 +13,10 @@ import java.util.List;
 import static java.util.stream.Collectors.toCollection;
 
 @Service
-public class CompanyService extends ClientService implements ICompanyService
+public class CompanyService extends ClientService
 {
     private int companyId;
     private Logger logger = new Logger();
-
 
     public CompanyService(){}
 
@@ -178,10 +177,5 @@ public class CompanyService extends ClientService implements ICompanyService
 
         return company;
     }
-
-//    public Coupon getCouponByTitle(String title, int companyId)
-//    {
-//        return couponRepository.findCouponByTitle(title);
-//    }
 }
 
