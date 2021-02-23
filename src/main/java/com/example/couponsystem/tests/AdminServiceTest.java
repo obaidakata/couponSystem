@@ -1,26 +1,20 @@
-package com.example.couponsystem.services;
+package com.example.couponsystem.tests;
 
 import com.example.couponsystem.customExceptions.Logger;
+import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
+import com.example.couponsystem.services.AdminService;
+import com.example.couponsystem.services.CompanyService;
+import com.example.couponsystem.services.CustomerService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Customer;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
-@SpringBootTest
-class AdminServiceTest
+public class AdminServiceTest
 {
     LoginManager loginManager;
-    @Autowired
     AdminService adminService;
-    @Autowired
-    CompanyService companyService;
-    @Autowired
-    CustomerService customerService;
 
     Logger logger = new Logger();
     private Customer[] customers;
@@ -29,10 +23,9 @@ class AdminServiceTest
     public AdminServiceTest()
     {
         loginManager = LoginManager.getInstance();
-        loginManager.setAdminService(adminService);
+        adminService = (AdminService) loginManager.login("admin@admin.com", "admin", eClientType.Administrator);
         initData();
     }
-
 
     public void initData()
     {
@@ -49,8 +42,7 @@ class AdminServiceTest
         };
     }
 
-    @Test
-    void addCompany()
+    public void addCompany()
     {
         for(Company company : companies)
         {
@@ -60,12 +52,12 @@ class AdminServiceTest
         logger.log(adminService.getAllCompanies());
     }
 
-    @Test
-    void updateCompany()
+    public void updateCompany()
     {
         for(Company company : companies)
         {
-            Integer companyInDBId =  companyService.getCompanyId(company.getEmail(), company.getPassword());
+            CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
+            Integer companyInDBId =  companyService.getCompanyId();
             if(companyInDBId != null)
             {
                 company.setId(companyInDBId);
@@ -78,12 +70,12 @@ class AdminServiceTest
         logger.log(adminService.getAllCompanies());
     }
 
-    @Test
-    void deleteCompany()
+    public void deleteCompany()
     {
         for(Company company : companies)
         {
-            Integer companyInDBId =  companyService.getCompanyId(company.getEmail(), company.getPassword());
+            CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
+            Integer companyInDBId =  companyService.getCompanyId();
             if(companyInDBId != null)
             {
                 adminService.deleteCompany(companyInDBId);
@@ -93,18 +85,17 @@ class AdminServiceTest
 
     }
 
-    @Test
-    void getAllCompanies()
+    public void getAllCompanies()
     {
         logger.log(adminService.getAllCompanies());
     }
 
-    @Test
-    void getOneCompany()
+    public void getOneCompany()
     {
         for(Company company : companies)
         {
-            Integer companyInDBId =  companyService.getCompanyId(company.getEmail(), company.getPassword());
+            CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
+            Integer companyInDBId =  companyService.getCompanyId();
             if(companyInDBId != null)
             {
                 Company companyFromDB = adminService.getOneCompany(companyInDBId);
@@ -116,8 +107,7 @@ class AdminServiceTest
         }
     }
 
-    @Test
-    void addCustomer()
+    public void addCustomer()
     {
         logger.log("Adding Customers Start");
         for(Customer customer : customers)
@@ -128,16 +118,16 @@ class AdminServiceTest
         logger.log(adminService.getAllCustomers());
     }
 
-    @Test
-    void updateCustomer()
+    public void updateCustomer()
     {
         logger.log("updating customers first name to lower case");
         for(Customer customer : customers)
         {
-            Integer customerInDBId = customerService.getCustomerId(customer.getEmail(),customer.getPassword());
+            CustomerService customerService = (CustomerService) loginManager.login(customer.getEmail(),customer.getPassword(), eClientType.Customer);
+            Integer customerInDBId = customerService.getCustomerId();
             if(customerInDBId != null)
             {
-                customer.setId(customerService.getCustomerId(customer.getEmail(), customer.getPassword()));
+                customer.setId(customerService.getCustomerId());
                 customer.setFirstName(customer.getFirstName().toLowerCase(Locale.ROOT));
                 adminService.updateCustomer(customer);
             }
@@ -146,12 +136,12 @@ class AdminServiceTest
         logger.log(adminService.getAllCustomers());
     }
 
-    @Test
-    void deleteCustomer()
+    public void deleteCustomer()
     {
         for(Customer customer : customers)
         {
-            Integer customerInDBId = customerService.getCustomerId(customer.getEmail(), customer.getPassword());
+            CustomerService customerService = (CustomerService) loginManager.login(customer.getEmail(),customer.getPassword(), eClientType.Customer);
+            Integer customerInDBId = customerService.getCustomerId();
             if(customerInDBId != null)
             {
                 adminService.deleteCustomer(customerInDBId);
@@ -160,18 +150,17 @@ class AdminServiceTest
         logger.log(adminService.getAllCustomers());
     }
 
-    @Test
-    void getAllCustomers()
+    public void getAllCustomers()
     {
         logger.log(adminService.getAllCustomers());
     }
 
-    @Test
-    void getOneCustomer()
+    public void getOneCustomer()
     {
         for(Customer customer : customers)
         {
-            Integer customerInDBId = customerService.getCustomerId(customer.getEmail(), customer.getPassword());
+            CustomerService customerService = (CustomerService) loginManager.login(customer.getEmail(),customer.getPassword(), eClientType.Customer);
+            Integer customerInDBId = customerService.getCustomerId();
             if(customerInDBId != null)
             {
                 Customer customerInDB = adminService.getOneCustomer(customerInDBId);
@@ -183,8 +172,8 @@ class AdminServiceTest
         }
     }
 
-    @Test
-    void getCompanyByName()
+
+    public void getCompanyByName()
     {
         for(Company company :companies)
         {

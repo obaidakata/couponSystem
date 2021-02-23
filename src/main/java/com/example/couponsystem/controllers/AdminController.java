@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,11 +19,11 @@ public class AdminController
     private AdminService adminService;
 
     @GetMapping(path="/{email}/{password}")
-    public boolean login(
+    public ResponseEntity<Boolean> login(
             @PathVariable("email") String email,
             @PathVariable("password") String password)
     {
-        return adminService.login(email, password);
+        return new ResponseEntity<>(adminService.login(email, password), HttpStatus.OK) ;
     }
 
     //    -------------------- company ------------------------------
@@ -49,9 +50,9 @@ public class AdminController
     }
 
     @GetMapping("/company/all")
-    public ResponseEntity<List<Company>> getAllCompanies()
+    public ResponseEntity<ArrayList<Company>> getAllCompanies()
     {
-        List<Company> companies = adminService.getAllCompanies();
+        ArrayList<Company> companies = adminService.getAllCompanies();
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
 
@@ -86,9 +87,9 @@ public class AdminController
     }
 
     @GetMapping("/customer/all")
-    public ResponseEntity<List<Customer>> getAllCustomers()
+    public ResponseEntity<ArrayList<Customer>> getAllCustomers()
     {
-        List<Customer> customers = adminService.getAllCustomers();
+        ArrayList<Customer> customers = adminService.getAllCustomers();
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 

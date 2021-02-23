@@ -1,6 +1,7 @@
 package com.example.couponsystem.tables;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class DoublePrimaryKey implements Serializable
 {
@@ -36,5 +37,20 @@ public class DoublePrimaryKey implements Serializable
     public void setCustomerID(int customerID)
     {
         this.customerID = customerID;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        DoublePrimaryKey that = (DoublePrimaryKey) o;
+        return couponID == that.couponID && customerID == that.customerID;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(couponID, customerID);
     }
 }

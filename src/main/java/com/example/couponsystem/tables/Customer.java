@@ -119,10 +119,6 @@ public class Customer
         return coupons;
     }
 
-    public void setCoupons(Set<Coupon> coupons)
-    {
-        this.coupons = coupons;
-    }
     public void setCoupons(ArrayList<Coupon> coupons)
     {
         this.coupons = new HashSet<>(coupons);

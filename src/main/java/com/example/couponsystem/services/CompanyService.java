@@ -125,23 +125,10 @@ public class CompanyService extends ClientService
 
     public ArrayList<Coupon> getCompanyCoupons()
     {
-//        ArrayList<Coupon> companyCoupons = couponRepository.getCouponsByCompanyID(companyId);
-//        if(companyCoupons != null)
-//        {
-//            return companyCoupons;
-//        }
-//        else
-//        {
-//            logger.log("while trying to get company coupons");
-//            return new ArrayList<Coupon>();
-//        }
-
         Company company = companyRepository.findCompanyById(companyId);
-        if(company != null)
+        if(company != null && company.getCoupons() != null)
         {
-            ArrayList<Coupon> companyCoupons = new ArrayList();
-            companyCoupons.addAll(company.getCoupons());
-            return companyCoupons;
+            return new ArrayList(company.getCoupons());
         }
         else
         {
@@ -195,17 +182,9 @@ public class CompanyService extends ClientService
         return company;
     }
 
-    public Integer getCompanyId(String email, String password)
+    public Integer getCompanyId()
     {
-        if(login(email, password))
-        {
-            return companyId;
-        }
-        else
-        {
-            //TODO : Fix this shit
-            return null;
-        }
+        return companyId;
     }
 }
 

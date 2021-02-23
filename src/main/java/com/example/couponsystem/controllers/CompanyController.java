@@ -5,9 +5,12 @@ import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path="/company")
@@ -17,55 +20,60 @@ public class CompanyController
     private CompanyService companyService;
 
 
-    @GetMapping(path="{email}/{password}")
-    public boolean login(
+    @GetMapping(path="/{email}/{password}")
+    public ResponseEntity<Boolean> login(
             @PathVariable("email") String email,
             @PathVariable("password") String password)
     {
-        return companyService.login(email, password);
+        return new ResponseEntity<>(companyService.login(email, password), HttpStatus.OK);
     }
 
-
-
-    @PostMapping
-    void addCoupon(@RequestBody Coupon couponToAdd)
+    @PostMapping("/add")
+    public ResponseEntity<Coupon> addCoupon(@RequestBody Coupon couponToAdd)
     {
         companyService.addCoupon(couponToAdd);
+        return new ResponseEntity<>(couponToAdd, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    void updateCoupon(@RequestBody Coupon couponToUpdate)
+    @PutMapping("/update")
+    public ResponseEntity<Coupon>  updateCoupon(@RequestBody Coupon couponToUpdate)
     {
         companyService.updateCoupon(couponToUpdate);
+        return new ResponseEntity<>(couponToUpdate, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "{companyId}")
-    void deleteCoupon(@PathVariable("companyId") int couponId)
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<?> deleteCoupon(@PathVariable("id") int couponId)
     {
         companyService.deleteCoupon(couponId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "coupons")
-    ArrayList<Coupon> getCompanyCoupons()
+    @GetMapping(path = "/all")
+    public ResponseEntity<ArrayList<Coupon>> getCompanyCoupons()
     {
-        return companyService.getCompanyCoupons();
+        ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
+        return new ResponseEntity<>(companyCoupons, HttpStatus.OK);
     }
 
     @GetMapping(path = "coupons/{category}")
-    ArrayList<Coupon> getCompanyCoupons(@PathVariable("category") eCategory category)
+    public ResponseEntity<ArrayList<Coupon>> getCompanyCoupons(@PathVariable("category") eCategory category)
     {
-        return companyService.getCompanyCoupons(category);
+        ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons(category);
+        return new ResponseEntity<>(companyCoupons, HttpStatus.OK);
     }
 
     @GetMapping(path = "coupons/{maxPrice}")
-    ArrayList<Coupon> getCompanyCoupons(@PathVariable("maxPrice") double maxPrice)
+    public ResponseEntity<ArrayList<Coupon>> getCompanyCoupons(@PathVariable("maxPrice") double maxPrice)
     {
-        return companyService.getCompanyCoupons(maxPrice);
+        ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons(maxPrice);
+        return new ResponseEntity<>(companyCoupons, HttpStatus.OK);
     }
 
     @GetMapping
-    Company getCompanyDetails()
+    public ResponseEntity<Company> getCompanyDetails()
     {
-        return companyService.getCompanyDetails();
+        Company company = companyService.getCompanyDetails();
+        return new ResponseEntity<>(company, HttpStatus.OK);
     }
 }

@@ -1,14 +1,15 @@
-package com.example.couponsystem.services;
+package com.example.couponsystem.tests;
 
 import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
+import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
+import com.example.couponsystem.services.AdminService;
+import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -17,15 +18,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-@SpringBootTest
-class CompanyServiceTest
+public class CompanyServiceTest
 {
     LoginManager loginManager;
-
-    @Autowired
-    CompanyService companyService;
-    @Autowired
     AdminService adminService;
+
     Map<String, Coupon[]> companiesCoupons;
     private Company[] companies;
 
@@ -33,7 +30,8 @@ class CompanyServiceTest
 
     public CompanyServiceTest()
     {
-
+        loginManager = LoginManager.getInstance();
+        adminService = (AdminService) loginManager.login("admin@admin.com", "admin", eClientType.Administrator);
     }
 
     private void initCoupons()
@@ -205,14 +203,14 @@ class CompanyServiceTest
         };
     }
 
-    @Test
-    void addCoupon()
+    public void addCoupon()
     {
         initCompanies();
         initCoupons();
         for(Company company : companies)
         {
-            if(companyService.login(company.getEmail(), company.getPassword()))
+            CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
+            if(companyService != null)
             {
                 Coupon[] companyCoupons = companiesCoupons.get(company.getName());
                 for(Coupon coupon : companyCoupons)
@@ -224,13 +222,13 @@ class CompanyServiceTest
         }
     }
 
-    @Test
-    void updateCoupon()
+    public void updateCoupon()
     {
         initCompanies();
         for(Company company : companies)
         {
-            if(companyService.login(company.getEmail(), company.getPassword()))
+            CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
+            if(companyService != null)
             {
                 ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
                 for(Coupon coupon : companyCoupons)
@@ -244,13 +242,18 @@ class CompanyServiceTest
         }
     }
 
-    @Test
-    void deleteCoupon()
+    private CompanyService loginCompany(String email, String password)
+    {
+        return (CompanyService) loginManager.login(email, password, eClientType.Company);
+    }
+
+    public void deleteCoupon()
     {
         initCompanies();
         for(Company company : companies)
         {
-            if(companyService.login(company.getEmail(), company.getPassword()))
+            CompanyService companyService = loginCompany(company.getEmail(),company.getPassword());
+            if(companyService != null)
             {
                 ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
                 if(companyCoupons != null)
@@ -264,52 +267,54 @@ class CompanyServiceTest
         }
     }
 
-    @Test
-    void getCompanyCoupons()
+
+
+    public void getCompanyCoupons()
     {
         initCompanies();
         for(Company company : companies)
         {
-            if(companyService.login(company.getEmail(), company.getPassword()))
+            CompanyService companyService = loginCompany(company.getEmail(),company.getPassword());
+            if(companyService != null)
             {
                 logger.log(companyService.getCompanyCoupons());
             }
         }
     }
 
-    @Test
-    void testGetCompanyCoupons()
+    public void testGetCompanyCoupons()
     {
         initCompanies();
         for(Company company : companies)
         {
-            if(companyService.login(company.getEmail(), company.getPassword()))
+            CompanyService companyService = loginCompany(company.getEmail(),company.getPassword());
+            if(companyService != null)
             {
                 logger.log(companyService.getCompanyCoupons(eCategory.Food));
             }
         }
     }
 
-    @Test
-    void testGetCompanyCoupons1()
+    public void testGetCompanyCoupons1()
     {
         initCompanies();
         for(Company company : companies)
         {
-            if(companyService.login(company.getEmail(), company.getPassword()))
+            CompanyService companyService = loginCompany(company.getEmail(),company.getPassword());
+            if(companyService != null)
             {
                 logger.log(companyService.getCompanyCoupons(100));
             }
         }
     }
 
-    @Test
-    void getCompanyDetails()
+    public void getCompanyDetails()
     {
         initCompanies();
         for(Company company :companies)
         {
-            if(companyService.login(company.getEmail(), company.getPassword()))
+            CompanyService companyService = loginCompany(company.getEmail(),company.getPassword());
+            if(companyService != null)
             {
                 Company companyInDB = companyService.getCompanyDetails();
                 if(companyInDB != null)

@@ -1,31 +1,23 @@
-package com.example.couponsystem.services;
+package com.example.couponsystem.tests;
 
 import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
+import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
+import com.example.couponsystem.services.AdminService;
+import com.example.couponsystem.services.CustomerService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-class CustomerServiceTest
+public class CustomerServiceTest
 {
     LoginManager loginManager;
-    @Autowired
-    CustomerService customerService;
-    @Autowired
-    AdminService adminService;
 
     private Logger logger = new Logger();
     private Customer[] customers;
@@ -35,13 +27,11 @@ class CustomerServiceTest
     public CustomerServiceTest()
     {
         loginManager = LoginManager.getInstance();
-        loginManager.setCustomerService(customerService);
-
     }
 
     private void initCoupons()
     {
-
+        AdminService adminService = (AdminService) loginManager.login("admin@admin.com", "admin", eClientType.Administrator);
         Company kfc = adminService.getCompanyByName("KFC");
         if(kfc == null)
         {
@@ -113,14 +103,19 @@ class CustomerServiceTest
         };
     }
 
-    @Test
-    void purchaseCoupon()
+    private CustomerService loginCustomer(String email, String password)
+    {
+        return (CustomerService) loginManager.login(email, password, eClientType.Customer);
+    }
+
+    public void purchaseCoupon()
     {
         initData();
         initCoupons();
         for(Customer customer :customers)
         {
-            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            CustomerService customerService = loginCustomer(customer.getEmail(), customer.getPassword());
+            if(customerService != null)
             {
                 if(coupons != null)
                 {
@@ -133,52 +128,52 @@ class CustomerServiceTest
         }
     }
 
-    @Test
-    void getCustomerCoupons()
+    public void getCustomerCoupons()
     {
         initData();
         for(Customer customer :customers)
         {
-            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            CustomerService customerService = loginCustomer(customer.getEmail(), customer.getPassword());
+            if(customerService != null)
             {
                 logger.log(customerService.getCustomerCoupons());
             }
         }
     }
 
-    @Test
-    void testGetCustomerCoupons()
+    public void testGetCustomerCoupons()
     {
         initData();
         for(Customer customer :customers)
         {
-            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            CustomerService customerService = loginCustomer(customer.getEmail(), customer.getPassword());
+            if(customerService != null)
             {
                 logger.log(customerService.getCustomerCoupons(65));
             }
         }
     }
 
-    @Test
-    void testGetCustomerCoupons1()
+    public void testGetCustomerCoupons1()
     {
         initData();
         for(Customer customer :customers)
         {
-            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            CustomerService customerService = loginCustomer(customer.getEmail(), customer.getPassword());
+            if(customerService != null)
             {
                 logger.log(customerService.getCustomerCoupons(eCategory.Food));
             }
         }
     }
 
-    @Test
-    void getCustomerDetails()
+    public void getCustomerDetails()
     {
         initData();
         for(Customer customer :customers)
         {
-            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            CustomerService customerService = loginCustomer(customer.getEmail(), customer.getPassword());
+            if(customerService != null)
             {
                 Customer customerInDB = customerService.getCustomerDetails();
                 if(customerInDB != null)

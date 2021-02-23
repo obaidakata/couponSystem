@@ -6,6 +6,8 @@ import com.example.couponsystem.services.ClientService;
 import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.services.CustomerService;
 import com.example.couponsystem.utiles.Singleton;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 

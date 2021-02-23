@@ -142,16 +142,8 @@ public class CustomerService extends ClientService
         return customer;
     }
 
-    public Integer getCustomerId(String email, String password)
+    public Integer getCustomerId()
     {
-        if(login(email, password))
-        {
-            return customerId;
-        }
-        else
-        {
-            //TODO : Fix this shit
-            return null;
-        }
+        return customerId;
     }
 }
