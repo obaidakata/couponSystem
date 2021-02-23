@@ -179,5 +179,18 @@ public class CompanyService extends ClientService
 
         return company;
     }
+
+    public Integer getCompanyId(String email, String password)
+    {
+        if(login(email, password))
+        {
+            return companyId;
+        }
+        else
+        {
+            //TODO : Fix this shit
+            return null;
+        }
+    }
 }
 

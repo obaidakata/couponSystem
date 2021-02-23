@@ -41,9 +41,17 @@ class CustomerServiceTest
 
     private void initCoupons()
     {
+
+        Company kfc = adminService.getCompanyByName("KFC");
+        if(kfc == null)
+        {
+            return;
+        }
+
+        int kfcId = kfc.getId();
         coupons = new ArrayList<>();
         coupons.add(new Coupon(1,
-                adminService.getCompanyByName("KFC").getId(),
+                kfcId,
                 eCategory.Food,
                 "5 Nagets",
                 "Chicken Naget Description",
@@ -53,7 +61,9 @@ class CustomerServiceTest
                 60.90,
                 "KFC_5_Nagets.png"));
 
-        coupons.add(new Coupon(2, adminService.getCompanyByName("KFC").getId(),
+        coupons.add(new Coupon(
+                        2,
+                        kfcId,
                         eCategory.Food,
                         "4 Nagets",
                         "Chicken Naget Description",
@@ -63,7 +73,9 @@ class CustomerServiceTest
                         44.90,
                         "KFC_4_Nagets.png"));
 
-        coupons.add(new Coupon(3, adminService.getCompanyByName("KFC").getId(),
+        coupons.add(new Coupon(
+                        3,
+                        kfcId,
                         eCategory.Restaurant,
                         "Family dinner",
                         "Chicken Breast and Naget Description",
@@ -73,7 +85,9 @@ class CustomerServiceTest
                         80.90,
                         "KFC_4_Family_Dinner.png"));
 
-        coupons.add(new Coupon(4, adminService.getCompanyByName("KFC").getId(),
+        coupons.add(new Coupon(
+                        4,
+                        kfcId,
                         eCategory.Electricity,
                         "test for delete",
                         "Will be deleted",
@@ -106,10 +120,15 @@ class CustomerServiceTest
         initCoupons();
         for(Customer customer :customers)
         {
-            customerService.login(customer.getEmail(), customer.getPassword());
-            for(Coupon coupon : coupons)
+            if(customerService.login(customer.getEmail(), customer.getPassword()))
             {
-                customerService.purchaseCoupon(coupon.getId());
+                if(coupons != null)
+                {
+                    for(Coupon coupon : coupons)
+                    {
+                        customerService.purchaseCoupon(coupon.getId());
+                    }
+                }
             }
         }
     }
@@ -117,10 +136,13 @@ class CustomerServiceTest
     @Test
     void getCustomerCoupons()
     {
+        initData();
         for(Customer customer :customers)
         {
-            customerService.login(customer.getEmail(), customer.getPassword());
-            logger.log(customerService.getCustomerCoupons());
+            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            {
+                logger.log(customerService.getCustomerCoupons());
+            }
         }
     }
 
@@ -130,8 +152,10 @@ class CustomerServiceTest
         initData();
         for(Customer customer :customers)
         {
-            customerService.login(customer.getEmail(), customer.getPassword());
-            logger.log(customerService.getCustomerCoupons(65));
+            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            {
+                logger.log(customerService.getCustomerCoupons(65));
+            }
         }
     }
 
@@ -141,8 +165,10 @@ class CustomerServiceTest
         initData();
         for(Customer customer :customers)
         {
-            customerService.login(customer.getEmail(), customer.getPassword());
-            logger.log(customerService.getCustomerCoupons(eCategory.Food));
+            if(customerService.login(customer.getEmail(), customer.getPassword()))
+            {
+                logger.log(customerService.getCustomerCoupons(eCategory.Food));
+            }
         }
     }
 
@@ -152,11 +178,13 @@ class CustomerServiceTest
         initData();
         for(Customer customer :customers)
         {
-            customerService.login(customer.getEmail(), customer.getPassword());
-            Customer customerInDB = customerService.getCustomerDetails();
-            if(customerInDB != null)
+            if(customerService.login(customer.getEmail(), customer.getPassword()))
             {
-                logger.log(customerInDB.toString());
+                Customer customerInDB = customerService.getCustomerDetails();
+                if(customerInDB != null)
+                {
+                    logger.log(customerInDB.toString());
+                }
             }
         }
     }

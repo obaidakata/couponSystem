@@ -1,29 +1,31 @@
-package com.example.couponsystem.controllers;
+//package com.example.couponsystem.controllers;
+//
+//import com.example.couponsystem.enums.eCategory;
+//import com.example.couponsystem.services.CompanyService;
+//import com.example.couponsystem.tables.Company;
+//import com.example.couponsystem.tables.Coupon;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.web.bind.annotation.*;
+//
+//import java.util.ArrayList;
+//
+//@RestController
+//@RequestMapping(path="/company")
+//public class CompanyController
+//{
+//    @Autowired
+//    private CompanyService companyService;
+//
+//
+//    @GetMapping(path="{email}/{password}")
+//    public boolean login(
+//            @PathVariable("email") String email,
+//            @PathVariable("password") String password)
+//    {
+//        return companyService.login(email, password);
+//    }
+//
 
-import com.example.couponsystem.enums.eCategory;
-import com.example.couponsystem.services.CompanyService;
-import com.example.couponsystem.tables.Company;
-import com.example.couponsystem.tables.Coupon;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-
-@RestController
-@RequestMapping(path="api/v1/company")
-public class CompanyController
-{
-    @Autowired
-    private CompanyService companyService;
-
-
-    @GetMapping(path="{email}/{password}")
-    public boolean login(
-            @PathVariable("email") String email,
-            @PathVariable("password") String password)
-    {
-        return companyService.login(email, password);
-    }
 //
 //    @PostMapping
 //    void addCoupon(@RequestBody Coupon couponToAdd)
@@ -61,9 +63,9 @@ public class CompanyController
 //        return companyService.getCompanyCoupons(maxPrice);
 //    }
 
-    @GetMapping
-    Company getCompanyDetails()
-    {
-        return companyService.getCompanyDetails();
-    }
-}
+//    @GetMapping
+//    Company getCompanyDetails()
+//    {
+//        return companyService.getCompanyDetails();
+//    }
+//}

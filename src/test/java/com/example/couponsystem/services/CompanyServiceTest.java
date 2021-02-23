@@ -46,11 +46,18 @@ class CompanyServiceTest
 
     private void initKFCCoupons()
     {
+        Company kfc = adminService.getCompanyByName("KFC");
+        if(kfc == null)
+        {
+            return;
+        }
+
+        int kfcId = kfc.getId();
         companiesCoupons.put(
                 "KFC",
                 new Coupon[]{
                         new Coupon(
-                                adminService.getCompanyByName("KFC").getId(),
+                                kfcId,
                                 eCategory.Food,
                                 "5 Nagets",
                                 "Chicken Naget Description",
@@ -61,7 +68,7 @@ class CompanyServiceTest
                                 "KFC_5_Nagets.png"),
 
                         new Coupon(
-                                adminService.getCompanyByName("KFC").getId(),
+                                kfcId,
                                 eCategory.Food,
                                 "4 Nagets",
                                 "Chicken Naget Description",
@@ -71,7 +78,8 @@ class CompanyServiceTest
                                 44.90,
                                 "KFC_4_Nagets.png"),
 
-                        new Coupon(adminService.getCompanyByName("KFC").getId(),
+                        new Coupon(
+                                kfcId,
                                 eCategory.Restaurant,
                                 "Family dinner",
                                 "Chicken Breast and Naget Description",
@@ -81,7 +89,8 @@ class CompanyServiceTest
                                 80.90,
                                 "KFC_4_Family_Dinner.png"),
 
-                        new Coupon(adminService.getCompanyByName("KFC").getId(),
+                        new Coupon(
+                                kfcId,
                                 eCategory.Electricity,
                                 "test for delete",
                                 "Will be deleted",
@@ -95,7 +104,13 @@ class CompanyServiceTest
 
     private void initVicCoupons()
     {
-        int vicId = adminService.getCompanyByName("Vic").getId();
+        Company vic = adminService.getCompanyByName("Vic");
+        if(vic == null)
+        {
+            return;
+        }
+
+        int vicId = vic.getId();
         companiesCoupons.put(
                 "Vic",
                 new Coupon[]{
@@ -136,7 +151,13 @@ class CompanyServiceTest
 
     private void initMCDCoupons()
     {
-        int mcdID = adminService.getCompanyByName("MCD").getId();
+        Company mcd = adminService.getCompanyByName("MCD");
+        if(mcd == null)
+        {
+            return;
+        }
+
+        int mcdID = mcd.getId();
         companiesCoupons.put(
                 "MCD",
                 new Coupon[]{
@@ -189,16 +210,16 @@ class CompanyServiceTest
     {
         initCompanies();
         initCoupons();
-        int couponCounter = 1;
         for(Company company : companies)
         {
-            companyService.login(company.getEmail(), company.getPassword());
-            Coupon[] companyCoupons = companiesCoupons.get(company.getName());
-            for(Coupon coupon : companyCoupons)
+            if(companyService.login(company.getEmail(), company.getPassword()))
             {
-                coupon.setId(couponCounter++);
-                companyService.addCoupon(coupon);
-                logger.log(coupon.toString());
+                Coupon[] companyCoupons = companiesCoupons.get(company.getName());
+                for(Coupon coupon : companyCoupons)
+                {
+                    companyService.addCoupon(coupon);
+                    logger.log(coupon.toString());
+                }
             }
         }
     }
@@ -209,14 +230,16 @@ class CompanyServiceTest
         initCompanies();
         for(Company company : companies)
         {
-            companyService.login(company.getEmail(), company.getPassword());
-            ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
-            for(Coupon coupon : companyCoupons)
+            if(companyService.login(company.getEmail(), company.getPassword()))
             {
-                coupon.setAmount(5);
-                coupon.setPrice(coupon.getPrice() + 10);
-                companyService.updateCoupon(coupon);
-                logger.log(coupon.toString());
+                ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
+                for(Coupon coupon : companyCoupons)
+                {
+                    coupon.setAmount(5);
+                    coupon.setPrice(coupon.getPrice() + 10);
+                    companyService.updateCoupon(coupon);
+                    logger.log(coupon.toString());
+                }
             }
         }
     }
@@ -227,11 +250,16 @@ class CompanyServiceTest
         initCompanies();
         for(Company company : companies)
         {
-            companyService.login(company.getEmail(), company.getPassword());
-            ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
-            for(Coupon coupon : companyCoupons)
+            if(companyService.login(company.getEmail(), company.getPassword()))
             {
-                companyService.deleteCoupon(coupon.getId());
+                ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
+                if(companyCoupons != null)
+                {
+                    for(Coupon coupon : companyCoupons)
+                    {
+                        companyService.deleteCoupon(coupon.getId());
+                    }
+                }
             }
         }
     }
@@ -242,8 +270,10 @@ class CompanyServiceTest
         initCompanies();
         for(Company company : companies)
         {
-            companyService.login(company.getEmail(), company.getPassword());
-            logger.log(companyService.getCompanyCoupons());
+            if(companyService.login(company.getEmail(), company.getPassword()))
+            {
+                logger.log(companyService.getCompanyCoupons());
+            }
         }
     }
 
@@ -253,8 +283,10 @@ class CompanyServiceTest
         initCompanies();
         for(Company company : companies)
         {
-            companyService.login(company.getEmail(), company.getPassword());
-            logger.log(companyService.getCompanyCoupons(eCategory.Food));
+            if(companyService.login(company.getEmail(), company.getPassword()))
+            {
+                logger.log(companyService.getCompanyCoupons(eCategory.Food));
+            }
         }
     }
 
@@ -264,8 +296,10 @@ class CompanyServiceTest
         initCompanies();
         for(Company company : companies)
         {
-            companyService.login(company.getEmail(), company.getPassword());
-            logger.log(companyService.getCompanyCoupons(100));
+            if(companyService.login(company.getEmail(), company.getPassword()))
+            {
+                logger.log(companyService.getCompanyCoupons(100));
+            }
         }
     }
 
@@ -275,11 +309,13 @@ class CompanyServiceTest
         initCompanies();
         for(Company company :companies)
         {
-            companyService.login(company.getEmail(), company.getPassword());
-            Company companyInDB = companyService.getCompanyDetails();
-            if(companyInDB != null)
+            if(companyService.login(company.getEmail(), company.getPassword()))
             {
-                logger.log(companyInDB.toString());
+                Company companyInDB = companyService.getCompanyDetails();
+                if(companyInDB != null)
+                {
+                    logger.log(companyInDB.toString());
+                }
             }
         }
     }

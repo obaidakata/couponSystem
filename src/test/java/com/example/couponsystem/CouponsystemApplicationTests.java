@@ -86,94 +86,10 @@ class CouponsystemApplicationTests
 
     public CouponsystemApplicationTests()
     {
-        customers = new Customer[]{
-                new Customer("Elias", "Khoury", "customer1@gmail.com", "customer1"),
-                new Customer("Marcel", "Jamawei", "customer2@gmail.com", "customer2"),
-                new Customer("Ahmad", "Salama", "customer3@gmail.com", "customer3")
-        };
-
-        companies = new Company[]{
-                new Company( "KFC", "company1@gmail.com", "customer4"),
-                new Company( "Vic",  "company2@gmail.com", "customer4"),
-                new Company("MCD",  "company3@gmail.com", "customer4")
-        };
     }
 
     @Test
     void contextLoads()
-    {
-        loginManager = LoginManager.getInstance();
-        loginManager.setAdminService(adminService);
-        loginManager.setCompanyService(companyService);
-        loginManager.setCustomerService(customerService);
-
-        initCoupons();
-//        testCompanyStart();
-        testCustomerStart();
-        testCompanyDeletingCoupon();
-        deletingClientsByAdmin();
-        TestingExceptions();
-
-    }
-
-    //    Company Testing
-    private void testCompanyStart()
-    {
-//        int test = 1;
-//        for(Company company : companies)
-//        {
-//            logger.log(toString().formatted("Test number %d", test++));
-//            logger.log(company.getName());
-//            companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
-//            if(companyService != null)
-//            {
-//                logger.log("Adding coupons to company -> Start");
-//                for(Coupon coupon: companiesCoupons.get(company.getName()))
-//                {
-//                    companyService.addCoupon(coupon);
-//                }
-//                logger.log("Adding Company's Coupons -> End");
-//                logger.log(companyService.getCompanyCoupons());
-//
-//                logger.log("updating Company's Coupon");
-//                ArrayList<Coupon> coupons = companyService.getCompanyCoupons();
-//                for(Coupon coupon :coupons)
-//                {
-//
-//                    coupon.setTitle(coupon.getTitle().toLowerCase(Locale.ROOT));
-//                    coupon.setAmount(coupon.getAmount() * 10);
-//                    companyService.updateCoupon(coupon);
-//                }
-//                logger.log("updating Company's Coupon -> End");
-//                adminService.deleteCompany(company.getId());
-//            }
-//        }
-//        logger.log("printing all food coupons");
-//        logger.log(companyService.getCompanyCoupons(eCategory.Food));
-//        logger.log("Printing coupons by Max price 50");
-//        logger.log(companyService.getCompanyCoupons(50));
-//        logger.log("printing companies details");
-//        logger.log((List) companyService.getCompanyDetails());
-
-
-    }
-
-    //    Customer Testing
-    private void testCustomerStart()
-    {
-
-    }
-
-    //   System Testing
-    private void testCompanyDeletingCoupon()
-    {
-    }
-
-    private void deletingClientsByAdmin()
-    {
-    }
-
-    private void TestingExceptions()
     {
     }
 
