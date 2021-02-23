@@ -23,12 +23,7 @@ public class Customer
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name="customers_vs_coupons",
-            joinColumns = @JoinColumn( name="coupon_id"),
-            inverseJoinColumns = @JoinColumn( name= "customers_id")
-    )
+    @Transient
     private Set<Coupon> coupons;
 
     public Customer(int id, String firstName, String lastName, String email, String password, Set<Coupon> coupons)
