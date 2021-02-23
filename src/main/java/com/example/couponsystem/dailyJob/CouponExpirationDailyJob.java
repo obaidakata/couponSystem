@@ -39,23 +39,23 @@ public class CouponExpirationDailyJob
 
     public void removeAllExpiredCoupons()
     {
-//        ArrayList<Company> companies = adminService.getAllCompanies();
-//        if(companies != null)
-//        {
-//            for(Company company : companies)
-//            {
-//                if(companyService.login(company.getEmail(), company.getPassword()))
-//                {
-//                    ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
-//                    if( companyCoupons != null && !companyCoupons.isEmpty())
-//                    {
-//                        for(Coupon coupon :companyCoupons)
-//                        {
-//
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        ArrayList<Company> companies = adminService.getAllCompanies();
+        if(companies != null)
+        {
+            for(Company company : companies)
+            {
+                if(companyService.login(company.getEmail(), company.getPassword()))
+                {
+                    ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
+                    if( companyCoupons != null && !companyCoupons.isEmpty())
+                    {
+                        for(Coupon coupon :companyCoupons)
+                        {
+
+                        }
+                    }
+                }
+            }
+        }
     }
 }

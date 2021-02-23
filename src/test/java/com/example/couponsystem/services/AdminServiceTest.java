@@ -90,6 +90,7 @@ class AdminServiceTest
             }
         }
         logger.log(adminService.getAllCompanies());
+
     }
 
     @Test

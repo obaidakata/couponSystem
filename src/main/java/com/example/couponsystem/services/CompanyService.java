@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -61,7 +63,7 @@ public class CompanyService extends ClientService
                 }
                 else
                 {
-                    company.setCoupons(new ArrayList<Coupon>(List.of(couponToAdd)));
+                    company.setCoupons(new HashSet<Coupon>(List.of(couponToAdd)));
                 }
             }
 
@@ -123,9 +125,22 @@ public class CompanyService extends ClientService
 
     public ArrayList<Coupon> getCompanyCoupons()
     {
-        ArrayList<Coupon> companyCoupons = couponRepository.getCouponsByCompanyID(companyId);
-        if(companyCoupons != null)
+//        ArrayList<Coupon> companyCoupons = couponRepository.getCouponsByCompanyID(companyId);
+//        if(companyCoupons != null)
+//        {
+//            return companyCoupons;
+//        }
+//        else
+//        {
+//            logger.log("while trying to get company coupons");
+//            return new ArrayList<Coupon>();
+//        }
+
+        Company company = companyRepository.findCompanyById(companyId);
+        if(company != null)
         {
+            ArrayList<Coupon> companyCoupons = new ArrayList();
+            companyCoupons.addAll(company.getCoupons());
             return companyCoupons;
         }
         else

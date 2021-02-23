@@ -7,6 +7,8 @@ import com.example.couponsystem.tables.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Set;
+
 @Service
 public class AdminService extends ClientService
 {
@@ -74,7 +76,7 @@ public class AdminService extends ClientService
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null)
         {
-            ArrayList<Coupon> companyCoupons = company.getCoupons();
+            Set<Coupon> companyCoupons = company.getCoupons();
             if(companyCoupons != null)
             {
                 for(Coupon coupon : companyCoupons)
@@ -150,16 +152,16 @@ public class AdminService extends ClientService
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
         {
-            ArrayList<Coupon> customerCoupons = customer.getCoupons();
-            if(customerCoupons != null)
-            {
-                for(Coupon coupon : customerCoupons)
-                {
-
-                    customersVsCouponsRepository.deleteByCouponID(coupon.getId());
-                    couponRepository.deleteById(coupon.getId());
-                }
-            }
+//            ArrayList<Coupon> customerCoupons = customer.getCoupons();
+//            if(customerCoupons != null)
+//            {
+//                for(Coupon coupon : customerCoupons)
+//                {
+//
+//                    customersVsCouponsRepository.deleteByCouponID(coupon.getId());
+//                    couponRepository.deleteById(coupon.getId());
+//                }
+//            }
             customerRepository.deleteById(customerId);
         }
         else

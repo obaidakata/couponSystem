@@ -12,6 +12,7 @@ public class CustomersVsCoupons
     @Id
     @Column(name = "COUPON_ID")
     private int couponID;
+
     @Id
     @Column(name = "CUSTOMERS_ID")
     private int customerID;

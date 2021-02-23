@@ -2,6 +2,8 @@ package com.example.couponsystem.tables;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -16,10 +18,10 @@ public class Company
     private String email;
     private String password;
 
-    @Transient
-    private ArrayList<Coupon> coupons;
+    @OneToMany(mappedBy = "companyID", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Coupon> coupons;
 
-    public Company(String name, String email, String password, ArrayList<Coupon>  coupons)
+    public Company(String name, String email, String password, Set<Coupon>  coupons)
     {
         this.name = name;
         this.email = email;
@@ -92,14 +94,19 @@ public class Company
         this.password = password;
     }
 
-    public ArrayList<Coupon>  getCoupons()
+    public Set<Coupon>  getCoupons()
     {
         return coupons;
     }
 
-    public void setCoupons(ArrayList<Coupon>  coupons)
+    public void setCoupons(Set<Coupon>  coupons)
     {
         this.coupons = coupons;
+    }
+
+    public void setCoupons(ArrayList<Coupon> coupons)
+    {
+        this.coupons = new HashSet<>(coupons);
     }
 
     @Override
