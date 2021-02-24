@@ -39,7 +39,13 @@ public class LoginManager
         return Singleton.getInstance(LoginManager.class);
     }
 
+
     @PostConstruct
+    public void init()
+    {
+
+    }
+
     public ClientService login(String email, String password, eClientType clientType)
     {
         ClientService clientToReturn = null;

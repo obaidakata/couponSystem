@@ -37,15 +37,31 @@ class Test implements CommandLineRunner
 
         adminServiceTest.addCompany();
         adminServiceTest.updateCompany();
+        adminServiceTest.getAllCompanies();
+
+
         adminServiceTest.addCustomer();
         adminServiceTest.updateCustomer();
-        adminServiceTest.getAllCompanies();
-        adminServiceTest.getAllCompanies();
+        adminServiceTest.getAllCustomers();
 
         companyServiceTest.addCoupon();
         companyServiceTest.getCompanyCoupons();
 
         customerServiceTest.purchaseCoupon();
         customerServiceTest.getCustomerCoupons();
+        customerServiceTest.testGetCustomerCoupons();
+        customerServiceTest.testGetCustomerCoupons1();
+        customerServiceTest.getCustomerDetails();
+
+
+        companyServiceTest.updateCoupon();
+        companyServiceTest.testGetCompanyCoupons();
+        companyServiceTest.testGetCompanyCoupons1();
+        companyServiceTest.getCompanyDetails();
+
+//        deleting all data
+//        companyServiceTest.deleteCoupon();
+//        adminServiceTest.deleteCompany();
+//        adminServiceTest.deleteCustomer();
     }
 }

@@ -5,6 +5,7 @@ import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -71,19 +72,19 @@ public class AdminService extends ClientService
         }
     }
 
+    @Transactional
     public void deleteCompany(int companyId)
     {
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null)
         {
-            Set<Coupon> companyCoupons = company.getCoupons();
+            ArrayList<Coupon> companyCoupons =  couponRepository.getCouponsByCompanyID(companyId);
             if(companyCoupons != null)
             {
                 for(Coupon coupon : companyCoupons)
                 {
                     int couponId = coupon.getId();
-                    //todo: check if this works
-                    customersVsCouponsRepository.deleteByCouponID(couponId);
+                    customersVsCouponsRepository.deleteCustomersVsCouponsByCouponID(couponId);
                     couponRepository.deleteById(couponId);
                 }
             }

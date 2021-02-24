@@ -5,8 +5,10 @@ import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.tables.Coupon;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -109,11 +111,12 @@ public class CompanyService extends ClientService
         }
     }
 
+    @Transactional
     public void deleteCoupon(int couponId)
     {
         if(couponRepository.existsById(couponId))
         {
-            customersVsCouponsRepository.deleteByCouponID(couponId);
+            customersVsCouponsRepository.deleteCustomersVsCouponsByCouponID(couponId);
             couponRepository.deleteById(couponId);
             logger.log("Deleting coupon");
         }

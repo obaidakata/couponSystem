@@ -78,7 +78,6 @@ public class Coupon
 
     }
 
-
     @Override
     public String toString()
     {
@@ -191,5 +190,10 @@ public class Coupon
         {
             amount--;
         }
+    }
+
+    public boolean isCouponExpired()
+    {
+        return LocalDate.now().isAfter(endDate);
     }
 }

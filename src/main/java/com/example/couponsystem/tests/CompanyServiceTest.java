@@ -12,6 +12,7 @@ import com.example.couponsystem.tables.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -215,6 +216,10 @@ public class CompanyServiceTest
                 Coupon[] companyCoupons = companiesCoupons.get(company.getName());
                 for(Coupon coupon : companyCoupons)
                 {
+                    LocalDate start = LocalDate.now().withDayOfMonth(22);
+                    LocalDate end  = LocalDate.now().withDayOfMonth(23);
+                    coupon.setStartDate(start);
+                    coupon.setEndDate(end);
                     companyService.addCoupon(coupon);
                     logger.log(coupon.toString());
                 }
@@ -266,7 +271,6 @@ public class CompanyServiceTest
             }
         }
     }
-
 
 
     public void getCompanyCoupons()

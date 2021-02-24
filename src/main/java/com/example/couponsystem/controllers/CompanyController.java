@@ -49,21 +49,21 @@ public class CompanyController
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/coupons")
     public ResponseEntity<ArrayList<Coupon>> getCompanyCoupons()
     {
         ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
         return new ResponseEntity<>(companyCoupons, HttpStatus.OK);
     }
 
-    @GetMapping(path = "coupons/{category}")
+    @GetMapping(path = "/coupons/{category}")
     public ResponseEntity<ArrayList<Coupon>> getCompanyCoupons(@PathVariable("category") eCategory category)
     {
         ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons(category);
         return new ResponseEntity<>(companyCoupons, HttpStatus.OK);
     }
 
-    @GetMapping(path = "coupons/{maxPrice}")
+    @GetMapping(path = "/coupons/{maxPrice}")
     public ResponseEntity<ArrayList<Coupon>> getCompanyCoupons(@PathVariable("maxPrice") double maxPrice)
     {
         ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons(maxPrice);
