@@ -52,6 +52,7 @@ public class AdminController
     @GetMapping("/company/all")
     public ResponseEntity<ArrayList<Company>> getAllCompanies()
     {
+        adminService.login("admin@admin.com", "admin");
         ArrayList<Company> companies = adminService.getAllCompanies();
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
@@ -68,6 +69,7 @@ public class AdminController
     @PostMapping("/customer/add")
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customerToAdd)
     {
+        System.out.println("Created");
         adminService.addCustomer(customerToAdd);
         return new ResponseEntity<>(customerToAdd, HttpStatus.CREATED);
     }

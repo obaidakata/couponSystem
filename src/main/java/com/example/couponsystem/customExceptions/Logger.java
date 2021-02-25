@@ -7,13 +7,13 @@ public class Logger
 {
     public void log(String sentence)
     {
-        System.out.println(sentence);
+//        System.out.println(sentence);
     }
     public void log(List arrayList)
     {
-        if(arrayList != null)
-        {
-            arrayList.forEach(element -> System.out.println(element));
-        }
+//        if(arrayList != null)
+//        {
+//            arrayList.forEach(element -> System.out.println(element));
+//        }
     }
 }

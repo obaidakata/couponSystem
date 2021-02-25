@@ -5,44 +5,22 @@ import com.example.couponsystem.services.AdminService;
 import com.example.couponsystem.services.ClientService;
 import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.services.CustomerService;
-import com.example.couponsystem.utiles.Singleton;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
+@Component
+@Scope("singleton")
 public class LoginManager
 {
+    @Autowired
     private AdminService adminService;
+    @Autowired
     private CompanyService companyService;
+    @Autowired
     private CustomerService customerService;
 
-    public void setAdminService(AdminService adminService)
-    {
-        this.adminService = adminService;
-    }
-
-    public void setCompanyService(CompanyService companyService)
-    {
-        this.companyService = companyService;
-    }
-
-    public void setCustomerService(CustomerService customerService)
-    {
-        this.customerService = customerService;
-    }
-
-    private LoginManager(){}
-
-    public static LoginManager getInstance()
-    {
-        return Singleton.getInstance(LoginManager.class);
-    }
-
-
-    @PostConstruct
-    public void init()
-    {
+    private LoginManager(){
 
     }
 

@@ -104,10 +104,6 @@ public class Company
         this.coupons = coupons;
     }
 
-    public void setCoupons(ArrayList<Coupon> coupons)
-    {
-        this.coupons = new HashSet<>(coupons);
-    }
 
     @Override
     public String toString() {

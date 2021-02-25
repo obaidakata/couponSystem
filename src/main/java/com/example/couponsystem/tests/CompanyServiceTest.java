@@ -10,6 +10,8 @@ import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,9 +21,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+
+@Component
+@Scope("singleton")
 public class CompanyServiceTest
 {
     LoginManager loginManager;
+
     AdminService adminService;
 
     Map<String, Coupon[]> companiesCoupons;
@@ -29,9 +35,11 @@ public class CompanyServiceTest
 
     Logger logger = new Logger();
 
-    public CompanyServiceTest()
+    @Autowired
+    public CompanyServiceTest(LoginManager loginManager)
+
     {
-        loginManager = LoginManager.getInstance();
+        this.loginManager = loginManager;
         adminService = (AdminService) loginManager.login("admin@admin.com", "admin", eClientType.Administrator);
     }
 

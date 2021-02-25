@@ -8,9 +8,14 @@ import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.services.CustomerService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+@Component
+@Scope("singleton")
 public class AdminServiceTest
 {
     LoginManager loginManager;
@@ -20,9 +25,10 @@ public class AdminServiceTest
     private Customer[] customers;
     private Company[] companies;
 
-    public AdminServiceTest()
+    @Autowired
+    public AdminServiceTest(LoginManager loginManager)
     {
-        loginManager = LoginManager.getInstance();
+        this.loginManager = loginManager;
         adminService = (AdminService) loginManager.login("admin@admin.com", "admin", eClientType.Administrator);
         initData();
     }

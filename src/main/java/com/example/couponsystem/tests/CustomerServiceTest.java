@@ -9,14 +9,19 @@ import com.example.couponsystem.services.CustomerService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 
-
+@Component
+@Scope("singleton")
 public class CustomerServiceTest
 {
+
     LoginManager loginManager;
 
     private Logger logger = new Logger();
@@ -24,9 +29,10 @@ public class CustomerServiceTest
     private Company[] companies;
     private ArrayList<Coupon> coupons;
 
-    public CustomerServiceTest()
+    @Autowired
+    public CustomerServiceTest(LoginManager loginManager)
     {
-        loginManager = LoginManager.getInstance();
+        this.loginManager = loginManager;
     }
 
     private void initCoupons()

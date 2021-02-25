@@ -175,7 +175,7 @@ public class CompanyService extends ClientService
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null)
         {
-            company.setCoupons(getCompanyCoupons());
+            company.setCoupons(new HashSet<>(getCompanyCoupons()));
         }
         else
         {

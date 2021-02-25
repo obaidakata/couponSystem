@@ -9,7 +9,9 @@ import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.utiles.Singleton;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -21,24 +23,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+@Scope("singleton")
 @Component
 public class CouponExpirationDailyJob implements CommandLineRunner
 {
+    @Autowired
     private LoginManager loginManager;
+
     private AdminService adminService;
     private CompanyService companyService;
     private Logger logger = new Logger();
 
 
-    public CouponExpirationDailyJob getInstance()
-    {
-        return Singleton.getInstance(CouponExpirationDailyJob.class);
-    }
-
-
     public void removeAllExpiredCoupons()
     {
-        loginManager = LoginManager.getInstance();
         adminService = (AdminService) loginManager.login("admin@admin.com", "admin", eClientType.Administrator);
         if(adminService == null)
         {
