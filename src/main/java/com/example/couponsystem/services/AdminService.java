@@ -60,7 +60,6 @@ public class AdminService extends ClientService
     {
         if(companyToUpdate != null)
         {
-            // Todo:  maybe is better to just use name and email
             Company company = companyRepository.findCompanyByName(companyToUpdate.getName());
             if(company != null)
             {
@@ -69,7 +68,7 @@ public class AdminService extends ClientService
             }
             else
             {
-                throw new IllegalStateException("Company with " + company.toString() + " does not exists");
+                throw new IllegalStateException("Company does not exists");
             }
         }
     }
@@ -141,6 +140,7 @@ public class AdminService extends ClientService
     {
 //        // TODO: check if works!
         boolean existCustomerWithTheSameId = customerRepository.existsById(customerToUpdate.getId());
+//        Customer customer = customerRepository.findCustomerByEmailAndPassword(customerToUpdate)
         if(existCustomerWithTheSameId)
         {
             customerRepository.saveAndFlush(customerToUpdate);

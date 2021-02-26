@@ -39,6 +39,7 @@ public class AdminController
     @PutMapping("/company/update")
     public ResponseEntity<Company> updateCompany(@RequestBody Company company)
     {
+        adminService.login("admin@admin.com", "admin");
         adminService.updateCompany(company);
         return new ResponseEntity<>(company, HttpStatus.OK);
     }
@@ -53,7 +54,6 @@ public class AdminController
     @GetMapping("/company/all")
     public ResponseEntity<ArrayList<Company>> getAllCompanies()
     {
-        adminService.login("admin@admin.com", "admin");
         ArrayList<Company> companies = adminService.getAllCompanies();
         return new ResponseEntity<>(companies, HttpStatus.OK);
     }
@@ -78,6 +78,7 @@ public class AdminController
     @PutMapping("/customer/update")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer)
     {
+        adminService.login("admin@admin.com", "admin");
         adminService.updateCustomer(customer);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }

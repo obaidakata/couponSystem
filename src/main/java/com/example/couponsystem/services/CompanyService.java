@@ -42,12 +42,12 @@ public class CompanyService extends ClientService
         return isLoginSuccessful;
     }
 
+    @Transactional
     public void addCoupon(Coupon couponToAdd)
     {
         if(couponToAdd != null)
         {
-            int couponCompanyId = couponToAdd.getCompaniesID();
-            Company company = companyRepository.findCompanyById(couponCompanyId);
+            Company company = companyRepository.findCompanyById(companyId);
             boolean isCouponExistsInCompany = false;
             if(company != null)
             {

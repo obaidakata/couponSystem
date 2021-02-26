@@ -84,22 +84,22 @@ public class CouponExpirationDailyJob implements CommandLineRunner
 //        timer.scheduleAtFixedRate(task, 0, 5000);
 //
 
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime nextRun = now.withHour(5).withMinute(0).withSecond(0);
-        if(now.compareTo(nextRun) > 0)
-            nextRun = nextRun.plusDays(1);
-
-        duration = Duration.between(now, nextRun);
-        long initalDelay = duration.getSeconds();
-
-        TimerTask task = new TimerTask() {
-            public void run() {
-                removeAllExpiredCoupons();
-            }
-        };
-
-        Timer timer = new Timer("AllExpiredCouponsTimer");
-        timer.scheduleAtFixedRate(task, initalDelay, TimeUnit.DAYS.toSeconds(1));
+//        LocalDateTime now = LocalDateTime.now();
+//        LocalDateTime nextRun = now.withHour(5).withMinute(0).withSecond(0);
+//        if(now.compareTo(nextRun) > 0)
+//            nextRun = nextRun.plusDays(1);
+//
+//        duration = Duration.between(now, nextRun);
+//        long initalDelay = duration.getSeconds();
+//
+//        TimerTask task = new TimerTask() {
+//            public void run() {
+//                removeAllExpiredCoupons();
+//            }
+//        };
+//
+//        Timer timer = new Timer("AllExpiredCouponsTimer");
+//        timer.scheduleAtFixedRate(task, initalDelay, TimeUnit.DAYS.toSeconds(1));
 
 
 
