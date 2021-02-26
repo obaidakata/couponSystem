@@ -56,13 +56,15 @@ public class AdminService extends ClientService
         }
     }
 
-    public void updateCompany(Company company)
+    public void updateCompany(Company companyToUpdate)
     {
-        if(company != null)
+        if(companyToUpdate != null)
         {
-            boolean existCompanyWithSameIDAndName = companyRepository.existsCompanyByIdAndName(company.getId(), company.getName());
-            if(existCompanyWithSameIDAndName)
+            // Todo:  maybe is better to just use name and email
+            Company company = companyRepository.findCompanyByName(companyToUpdate.getName());
+            if(company != null)
             {
+                company.setPassword(companyToUpdate.getPassword());
                 companyRepository.saveAndFlush(company);
             }
             else
@@ -135,16 +137,17 @@ public class AdminService extends ClientService
         }
     }
 
-    public void updateCustomer(Customer customer)
+    public void updateCustomer(Customer customerToUpdate)
     {
-        boolean existCustomerWithTheSameId = customerRepository.existsById(customer.getId());
+//        // TODO: check if works!
+        boolean existCustomerWithTheSameId = customerRepository.existsById(customerToUpdate.getId());
         if(existCustomerWithTheSameId)
         {
-            customerRepository.saveAndFlush(customer);
+            customerRepository.saveAndFlush(customerToUpdate);
         }
         else
         {
-            logger.log("Customer with " + customer.toString() + " does not exists");
+            logger.log("Customer with " + customerToUpdate.toString() + " does not exists");
         }
     }
 

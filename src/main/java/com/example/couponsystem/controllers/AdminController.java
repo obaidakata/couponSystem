@@ -23,6 +23,7 @@ public class AdminController
             @PathVariable("email") String email,
             @PathVariable("password") String password)
     {
+        System.out.printf("Login as admin with %s, %s\n", email ,password);
         return new ResponseEntity<>(adminService.login(email, password), HttpStatus.OK) ;
     }
 

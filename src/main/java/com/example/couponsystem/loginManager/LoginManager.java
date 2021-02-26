@@ -42,7 +42,10 @@ public class LoginManager
 
         if(clientToReturn != null)
         {
-            clientToReturn.login(email, password);
+            if(!clientToReturn.login(email, password))
+            {
+//                TODO: check it later.
+            }
         }
 
         return clientToReturn;

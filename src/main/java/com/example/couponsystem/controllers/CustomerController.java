@@ -23,6 +23,7 @@ public class CustomerController
             @PathVariable("email") String email,
             @PathVariable("password") String password)
     {
+        System.out.printf("Login as customer with %s, %s\n", email ,password);
         return new ResponseEntity<>(customerService.login(email, password), HttpStatus.OK);
     }
 

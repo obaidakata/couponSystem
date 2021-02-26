@@ -25,6 +25,7 @@ public class CompanyController
             @PathVariable("email") String email,
             @PathVariable("password") String password)
     {
+        System.out.printf("Login as company with %s, %s\n", email ,password);
         return new ResponseEntity<>(companyService.login(email, password), HttpStatus.OK);
     }
 
