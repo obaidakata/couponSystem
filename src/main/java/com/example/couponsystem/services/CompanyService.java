@@ -53,7 +53,7 @@ public class CompanyService extends ClientService
             boolean isCouponExistsInCompany = false;
             if(company != null)
             {
-                ArrayList<Coupon> companyCoupons = couponRepository.getCouponsByCompanyID(companyId);
+                Set<Coupon> companyCoupons = company.getCoupons();
                 if(companyCoupons != null && !companyCoupons.isEmpty())
                 {
                     for(Coupon companyCoupon : companyCoupons)
@@ -67,6 +67,7 @@ public class CompanyService extends ClientService
                 }
                 else
                 {
+                    //TODO : is not necessary becouse we will not do saveAnd Flush
                     company.setCoupons(new HashSet<Coupon>(List.of(couponToAdd)));
                 }
             }
@@ -79,12 +80,13 @@ public class CompanyService extends ClientService
             {
                 couponToAdd.setCompaniesID(companyId);
                 couponRepository.saveAndFlush(couponToAdd);
-                logger.log("Add Successfully");
+                logger.log("Adding coupon " + couponToAdd.toString());
             }
         }
 
     }
 
+    @Transactional
     public void updateCoupon(Coupon couponToUpdate)
     {
         if(couponToUpdate != null)
@@ -99,7 +101,7 @@ public class CompanyService extends ClientService
                     if(couponInDB.getTitle().equals(couponToUpdate.getTitle()))
                     {
                         couponRepository.saveAndFlush(couponToUpdate);
-                        logger.log("Coupon " + couponToUpdate.getId() + " had been updated!");
+                        logger.log("updating coupon  " + couponToUpdate.toString());
                     }
                     else
                     {
@@ -121,7 +123,7 @@ public class CompanyService extends ClientService
         {
             customersVsCouponsRepository.deleteCustomersVsCouponsByCouponID(couponId);
             couponRepository.deleteById(couponId);
-            logger.log("Deleting coupon");
+            logger.log(String.format("Deleting coupon with id %d", couponId));
         }
         else
         {
@@ -134,19 +136,7 @@ public class CompanyService extends ClientService
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null && company.getCoupons() != null)
         {
-            Set<Coupon> coupons = company.getCoupons();
-//            for(Coupon coupon:coupons)
-//            {
-//                if(coupon.getEndDate() == null)
-//                {
-//                    coupon.setEndDate(LocalDate.now());
-//                }
-//                if(coupon.getStartDate() == null)
-//                {
-//                    coupon.setStartDate(LocalDate.now());
-//                }
-//            }
-            return new ArrayList(coupons);
+            return new ArrayList(company.getCoupons());
         }
         else
         {

@@ -42,9 +42,9 @@ public class AdminServiceTest
         };
 
         companies = new Company[]{
-                new Company("KFC", "company1@gmail.com", "customer4"),
-                new Company("Vic",  "company2@gmail.com", "customer4"),
-                new Company("MCD",  "company3@gmail.com", "customer4")
+                new Company("KFC", "company1@gmail.com", "company1"),
+                new Company("Vic",  "company2@gmail.com", "company2"),
+                new Company("MCD",  "company3@gmail.com", "company3")
         };
     }
 
