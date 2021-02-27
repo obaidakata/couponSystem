@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.Transient;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +48,7 @@ public class CompanyService extends ClientService
     {
         if(couponToAdd != null)
         {
+            couponToAdd.setCompaniesID(companyId);
             Company company = companyRepository.findCompanyById(companyId);
             boolean isCouponExistsInCompany = false;
             if(company != null)
@@ -75,6 +77,7 @@ public class CompanyService extends ClientService
             }
             else
             {
+                couponToAdd.setCompaniesID(companyId);
                 couponRepository.saveAndFlush(couponToAdd);
                 logger.log("Add Successfully");
             }
@@ -131,7 +134,19 @@ public class CompanyService extends ClientService
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null && company.getCoupons() != null)
         {
-            return new ArrayList(company.getCoupons());
+            Set<Coupon> coupons = company.getCoupons();
+//            for(Coupon coupon:coupons)
+//            {
+//                if(coupon.getEndDate() == null)
+//                {
+//                    coupon.setEndDate(LocalDate.now());
+//                }
+//                if(coupon.getStartDate() == null)
+//                {
+//                    coupon.setStartDate(LocalDate.now());
+//                }
+//            }
+            return new ArrayList(coupons);
         }
         else
         {
