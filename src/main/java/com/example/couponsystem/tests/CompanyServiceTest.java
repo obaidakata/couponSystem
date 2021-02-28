@@ -225,7 +225,7 @@ public class CompanyServiceTest
                 for(Coupon coupon : companyCoupons)
                 {
                     LocalDate start = LocalDate.now().withDayOfMonth(22);
-                    LocalDate end  = LocalDate.now().withDayOfMonth(23);
+                    LocalDate end  = LocalDate.now().withYear(start.getYear() + 1);
                     coupon.setStartDate(start);
                     coupon.setEndDate(end);
                     companyService.addCoupon(coupon);

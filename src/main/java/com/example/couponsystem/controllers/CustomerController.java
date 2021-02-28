@@ -2,6 +2,7 @@ package com.example.couponsystem.controllers;
 
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.services.CustomerService;
+import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 @RestController
 @RequestMapping(path="/customer")
@@ -60,5 +62,12 @@ public class CustomerController
     {
         Customer customer = customerService.getCustomerDetails();
         return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+    @GetMapping(path="/AllCompanies")
+    public ResponseEntity<ArrayList<Coupon>> getAllCoupons()
+    {
+        ArrayList<Coupon> coupons = customerService.getAllCoupons();
+        return new ResponseEntity<>(coupons, HttpStatus.OK);
     }
 }

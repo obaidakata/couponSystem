@@ -1,10 +1,14 @@
 package com.example.couponsystem.services;
 
+import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.tablesRepo.CompanyRepository;
 import com.example.couponsystem.tables.tablesRepo.CouponRepository;
 import com.example.couponsystem.tables.tablesRepo.CustomerRepository;
 import com.example.couponsystem.tables.tablesRepo.CustomersVsCouponsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 public abstract class ClientService
 {
@@ -39,4 +43,5 @@ public abstract class ClientService
     {
         this.customersVsCouponsRepository = customersVsCouponsRepository;
     }
+
 }

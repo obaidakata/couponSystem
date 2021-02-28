@@ -156,16 +156,6 @@ public class AdminService extends ClientService
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
         {
-//            ArrayList<Coupon> customerCoupons = customer.getCoupons();
-//            if(customerCoupons != null)
-//            {
-//                for(Coupon coupon : customerCoupons)
-//                {
-//
-//                    customersVsCouponsRepository.deleteByCouponID(coupon.getId());
-//                    couponRepository.deleteById(coupon.getId());
-//                }
-//            }
             customerRepository.deleteById(customerId);
         }
         else

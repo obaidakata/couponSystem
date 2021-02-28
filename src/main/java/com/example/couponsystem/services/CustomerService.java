@@ -1,15 +1,14 @@
 package com.example.couponsystem.services;
 
-import com.example.couponsystem.tables.Customer;
+import com.example.couponsystem.tables.*;
 import com.example.couponsystem.customExceptions.Logger;
 import com.example.couponsystem.enums.eCategory;
-import com.example.couponsystem.tables.Coupon;
-import com.example.couponsystem.tables.CustomersVsCoupons;
-import com.example.couponsystem.tables.DoublePrimaryKey;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -52,7 +51,7 @@ public class CustomerService extends ClientService
                     coupon.purchase();
                     couponRepository.saveAndFlush(coupon);
                     customersVsCouponsRepository.saveAndFlush(new CustomersVsCoupons(couponId, customerId));
-                    logger.log("You bought " + couponId);
+                    logger.log(String.format("Customer %d bought %d ", customerId, couponId));
                 }
                 else
                 {
@@ -145,5 +144,23 @@ public class CustomerService extends ClientService
     public Integer getCustomerId()
     {
         return customerId;
+    }
+
+    public ArrayList<Coupon> getAllCoupons()
+    {
+        ArrayList<Coupon> coupons = new ArrayList<>();
+        List<Company> companies = companyRepository.findAll();
+        for(Company company : companies)
+        {
+            for(Coupon coupon :company.getCoupons())
+            {
+                if(coupon.getAmount() > 0)
+                {
+                    coupons.add(coupon);
+                }
+            }
+        }
+
+        return coupons;
     }
 }
