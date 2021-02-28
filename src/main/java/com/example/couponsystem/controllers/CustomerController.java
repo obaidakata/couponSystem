@@ -43,14 +43,14 @@ public class CustomerController
         return new ResponseEntity<>(customerCoupons, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/coupons/{category}")
+    @GetMapping(path = "/coupons/category/{category}")
     public ResponseEntity<ArrayList<Coupon>> getCustomerCoupons(@PathVariable("category") eCategory category)
     {
         ArrayList<Coupon> customerCoupons = customerService.getCustomerCoupons(category);
         return new ResponseEntity<>(customerCoupons, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/coupons/{maxPrice}")
+    @GetMapping(path = "/coupons/price/{maxPrice}")
     public ResponseEntity<ArrayList<Coupon>> getCustomerCoupons(@PathVariable("maxPrice") double maxPrice)
     {
         ArrayList<Coupon> customerCoupons = customerService.getCustomerCoupons(maxPrice);
