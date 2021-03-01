@@ -1,5 +1,8 @@
 package com.example.couponsystem.controllers;
 
+import com.example.couponsystem.customExceptions.ApiRequestException;
+import com.example.couponsystem.enums.eClientType;
+import com.example.couponsystem.loginManager.LoginManager;
 import com.example.couponsystem.services.AdminService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Customer;
@@ -16,6 +19,8 @@ import java.util.List;
 public class AdminController
 {
     @Autowired
+    private LoginManager loginManager;
+
     private AdminService adminService;
 
     @GetMapping(path="/{email}/{password}")
@@ -23,8 +28,9 @@ public class AdminController
             @PathVariable("email") String email,
             @PathVariable("password") String password)
     {
-        System.out.printf("Login as admin with %s, %s\n", email ,password);
-        return new ResponseEntity<>(adminService.login(email, password), HttpStatus.OK) ;
+        adminService = (AdminService) loginManager.login(email, password, eClientType.Administrator);
+        Boolean isLogIn = adminService != null;
+        return new ResponseEntity<>(isLogIn, HttpStatus.OK) ;
     }
 
     //    -------------------- company ------------------------------
@@ -32,37 +38,107 @@ public class AdminController
     @PostMapping("/company/add")
     public ResponseEntity<Company> addCompany(@RequestBody Company companyToAdd)
     {
-        adminService.addCompany(companyToAdd);
-        return new ResponseEntity<>(companyToAdd, HttpStatus.CREATED);
+        if(adminService != null)
+        {
+            try
+            {
+                adminService.addCompany(companyToAdd);
+                return new ResponseEntity<>(companyToAdd, HttpStatus.CREATED);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     @PutMapping("/company/update")
     public ResponseEntity<Company> updateCompany(@RequestBody Company company)
     {
-        adminService.login("admin@admin.com", "admin");
-        adminService.updateCompany(company);
-        return new ResponseEntity<>(company, HttpStatus.OK);
+        if(adminService != null)
+        {
+            try
+            {
+                adminService.updateCompany(company);
+                return new ResponseEntity<>(company, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     @DeleteMapping("/company/delete/{id}")
     public ResponseEntity<?> deleteCompany(@PathVariable("id") int companyId)
     {
-        adminService.deleteCompany(companyId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(adminService != null)
+        {
+            try
+            {
+                adminService.deleteCompany(companyId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
+
     }
 
     @GetMapping("/company/all")
     public ResponseEntity<ArrayList<Company>> getAllCompanies()
     {
-        ArrayList<Company> companies = adminService.getAllCompanies();
-        return new ResponseEntity<>(companies, HttpStatus.OK);
+        if(adminService != null)
+        {
+            try
+            {
+                ArrayList<Company> companies = adminService.getAllCompanies();
+                return new ResponseEntity<>(companies, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     @GetMapping("/company/find/{id}")
     public ResponseEntity<Company> getOneCompany(@PathVariable("id") int companyId)
     {
-        Company company = adminService.getOneCompany(companyId);
-        return new ResponseEntity<>(company, HttpStatus.OK);
+        if(adminService != null)
+        {
+            try
+            {
+                Company company = adminService.getOneCompany(companyId);
+                return new ResponseEntity<>(company, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     //    -------------------- customer ------------------------------
@@ -70,39 +146,106 @@ public class AdminController
     @PostMapping("/customer/add")
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customerToAdd)
     {
-        System.out.println("Created");
-        adminService.addCustomer(customerToAdd);
-        return new ResponseEntity<>(customerToAdd, HttpStatus.CREATED);
+        if(adminService != null)
+        {
+            try
+            {
+                adminService.addCustomer(customerToAdd);
+                return new ResponseEntity<>(customerToAdd, HttpStatus.CREATED);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     @PutMapping("/customer/update")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer)
     {
-        adminService.login("admin@admin.com", "admin");
-        adminService.updateCustomer(customer);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        if(adminService != null)
+        {
+            try
+            {
+                adminService.updateCustomer(customer);
+                return new ResponseEntity<>(customer, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     @DeleteMapping("/customer/delete/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable("id") int customerId)
     {
-        adminService.deleteCustomer(customerId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(adminService != null)
+        {
+            try
+            {
+                adminService.deleteCustomer(customerId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     @GetMapping("/customer/all")
     public ResponseEntity<ArrayList<Customer>> getAllCustomers()
     {
-        ArrayList<Customer> customers = adminService.getAllCustomers();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+
+        if(adminService != null)
+        {
+            try
+            {
+                ArrayList<Customer> customers = adminService.getAllCustomers();
+                return new ResponseEntity<>(customers, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
 
     @GetMapping("/customer/find/{id}")
     public ResponseEntity<Customer> getOneCustomer(@PathVariable("id") int customerId)
     {
-        Customer customer = adminService.getOneCustomer(customerId);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        if(adminService != null)
+        {
+            try
+            {
+                Customer customer = adminService.getOneCustomer(customerId);
+                return new ResponseEntity<>(customer, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
     }
-
-
 }

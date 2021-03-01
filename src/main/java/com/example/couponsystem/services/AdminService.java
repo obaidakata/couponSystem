@@ -1,6 +1,6 @@
 package com.example.couponsystem.services;
 
-import com.example.couponsystem.customExceptions.Logger;
+import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 @Service
 public class AdminService extends ClientService
@@ -37,17 +36,17 @@ public class AdminService extends ClientService
         return isLoginSuccessful;
     }
 
-    public void addCompany(Company companyToAdd)
+    public void addCompany(Company companyToAdd) throws Exception
     {
         if(companyToAdd != null)
         {
             if(companyRepository.existsCompanyByName(companyToAdd.getName()))
             {
-                logger.log("Name: " + companyToAdd.getName() + " exist!");
+                throw new Exception("Name: " + companyToAdd.getName() + " exist!");
             }
             else if(companyRepository.existsCompanyByEmail(companyToAdd.getEmail()))
             {
-                logger.log("Email: " + companyToAdd.getEmail() + " exist!");
+                throw new Exception("Email: " + companyToAdd.getEmail() + " exist!");
             }
             else
             {
@@ -56,7 +55,7 @@ public class AdminService extends ClientService
         }
     }
 
-    public void updateCompany(Company companyToUpdate)
+    public void updateCompany(Company companyToUpdate) throws Exception
     {
         if(companyToUpdate != null)
         {
@@ -68,13 +67,13 @@ public class AdminService extends ClientService
             }
             else
             {
-                throw new IllegalStateException("Company does not exists");
+                throw new Exception("Company does not exists");
             }
         }
     }
 
     @Transactional
-    public void deleteCompany(int companyId)
+    public void deleteCompany(int companyId) throws Exception
     {
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null)
@@ -94,7 +93,7 @@ public class AdminService extends ClientService
         }
         else
         {
-            throw new IllegalStateException("Company with id "+ companyId+ " does not exists");
+            throw new Exception("Company with id "+ companyId+ " does not exists");
         }
     }
 
@@ -120,7 +119,7 @@ public class AdminService extends ClientService
         return company;
     }
 
-    public void addCustomer(Customer customer)
+    public void addCustomer(Customer customer) throws Exception
     {
         if(customer != null)
         {
@@ -131,27 +130,25 @@ public class AdminService extends ClientService
             }
             else
             {
-                logger.log("Exists cutomer with the same email" + customer.getEmail());
+                throw new Exception("Exists cutomer with the same email" + customer.getEmail());
             }
         }
     }
 
-    public void updateCustomer(Customer customerToUpdate)
+    public void updateCustomer(Customer customerToUpdate) throws Exception
     {
-//        // TODO: check if works!
         boolean existCustomerWithTheSameId = customerRepository.existsById(customerToUpdate.getId());
-//        Customer customer = customerRepository.findCustomerByEmailAndPassword(customerToUpdate)
         if(existCustomerWithTheSameId)
         {
             customerRepository.saveAndFlush(customerToUpdate);
         }
         else
         {
-            logger.log("Customer with " + customerToUpdate.toString() + " does not exists");
+            throw new Exception("Customer with " + customerToUpdate.toString() + " does not exists");
         }
     }
 
-    public void deleteCustomer(int customerId)
+    public void deleteCustomer(int customerId) throws Exception
     {
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
@@ -160,7 +157,7 @@ public class AdminService extends ClientService
         }
         else
         {
-            throw new IllegalStateException("Customer with id "+ customerId+ " does not exists");
+            throw new Exception("Customer with id "+ customerId+ " does not exists");
         }
     }
 

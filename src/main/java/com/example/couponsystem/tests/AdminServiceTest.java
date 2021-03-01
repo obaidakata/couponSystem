@@ -1,6 +1,6 @@
 package com.example.couponsystem.tests;
 
-import com.example.couponsystem.customExceptions.Logger;
+import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
 import com.example.couponsystem.services.AdminService;
@@ -52,7 +52,14 @@ public class AdminServiceTest
     {
         for(Company company : companies)
         {
-            adminService.addCompany(company);
+            try
+            {
+                adminService.addCompany(company);
+            }
+            catch(Exception e)
+            {
+                logger.log(e.getMessage());
+            }
         }
 
         logger.log(adminService.getAllCompanies());
@@ -69,7 +76,14 @@ public class AdminServiceTest
                 company.setId(companyInDBId);
                 company.setName(company.getName().toLowerCase(Locale.ROOT));
                 company.setPassword(company.getPassword().toUpperCase(Locale.ROOT));
-                adminService.updateCompany(company);
+                try
+                {
+                    adminService.updateCompany(company);
+                }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
+                }
             }
         }
 
@@ -84,7 +98,14 @@ public class AdminServiceTest
             Integer companyInDBId =  companyService.getCompanyId();
             if(companyInDBId != null)
             {
-                adminService.deleteCompany(companyInDBId);
+                try
+                {
+                    adminService.deleteCompany(companyInDBId);
+                }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
+                }
             }
         }
         logger.log(adminService.getAllCompanies());
@@ -118,7 +139,14 @@ public class AdminServiceTest
         logger.log("Adding Customers Start");
         for(Customer customer : customers)
         {
-            adminService.addCustomer(customer);
+            try
+            {
+                adminService.addCustomer(customer);
+            }
+            catch(Exception e)
+            {
+                logger.log(e.getMessage());
+            }
         }
         logger.log("Adding Customers Done");
         logger.log(adminService.getAllCustomers());
@@ -135,7 +163,14 @@ public class AdminServiceTest
             {
                 customer.setId(customerService.getCustomerId());
                 customer.setFirstName(customer.getFirstName().toLowerCase(Locale.ROOT));
-                adminService.updateCustomer(customer);
+                try
+                {
+                    adminService.updateCustomer(customer);
+                }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
+                }
             }
         }
         logger.log("Customer update Done");
@@ -150,7 +185,14 @@ public class AdminServiceTest
             Integer customerInDBId = customerService.getCustomerId();
             if(customerInDBId != null)
             {
-                adminService.deleteCustomer(customerInDBId);
+                try
+                {
+                    adminService.deleteCustomer(customerInDBId);
+                }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
+                }
             }
         }
         logger.log(adminService.getAllCustomers());

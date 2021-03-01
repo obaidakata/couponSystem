@@ -1,6 +1,6 @@
 package com.example.couponsystem.tests;
 
-import com.example.couponsystem.customExceptions.Logger;
+import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
@@ -8,17 +8,14 @@ import com.example.couponsystem.services.AdminService;
 import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
-import com.example.couponsystem.tables.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 
@@ -228,7 +225,14 @@ public class CompanyServiceTest
                     LocalDate end  = LocalDate.now().withYear(start.getYear() + 1);
                     coupon.setStartDate(start);
                     coupon.setEndDate(end);
-                    companyService.addCoupon(coupon);
+                    try
+                    {
+                        companyService.addCoupon(coupon);
+                    }
+                    catch(Exception e)
+                    {
+                        logger.log(e.getMessage());
+                    }
                     logger.log(coupon.toString());
                 }
             }
@@ -243,13 +247,23 @@ public class CompanyServiceTest
             CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
             if(companyService != null)
             {
-                ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
-                for(Coupon coupon : companyCoupons)
+                try
                 {
-                    coupon.setAmount(5);
-                    coupon.setPrice(coupon.getPrice() + 10);
-                    companyService.updateCoupon(coupon);
-                    logger.log(coupon.toString());
+                    ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
+                    if( companyCoupons != null)
+                    {
+                        for(Coupon coupon : companyCoupons)
+                        {
+                            coupon.setAmount(5);
+                            coupon.setPrice(coupon.getPrice() + 10);
+                            companyService.updateCoupon(coupon);
+                            logger.log(coupon.toString());
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
                 }
             }
         }
@@ -268,13 +282,20 @@ public class CompanyServiceTest
             CompanyService companyService = loginCompany(company.getEmail(),company.getPassword());
             if(companyService != null)
             {
-                ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
-                if(companyCoupons != null)
+                try
                 {
-                    for(Coupon coupon : companyCoupons)
+                    ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
+                    if(companyCoupons != null)
                     {
-                        companyService.deleteCoupon(coupon.getId());
+                        for(Coupon coupon : companyCoupons)
+                        {
+                            companyService.deleteCoupon(coupon.getId());
+                        }
                     }
+                }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
                 }
             }
         }
@@ -328,11 +349,19 @@ public class CompanyServiceTest
             CompanyService companyService = loginCompany(company.getEmail(),company.getPassword());
             if(companyService != null)
             {
-                Company companyInDB = companyService.getCompanyDetails();
-                if(companyInDB != null)
+                try
                 {
-                    logger.log(companyInDB.toString());
+                    Company companyInDB = companyService.getCompanyDetails();
+                    if(companyInDB != null)
+                    {
+                        logger.log(companyInDB.toString());
+                    }
                 }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
+                }
+
             }
         }
     }

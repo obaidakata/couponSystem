@@ -1,6 +1,6 @@
 package com.example.couponsystem.tests;
 
-import com.example.couponsystem.customExceptions.Logger;
+import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
@@ -127,7 +127,14 @@ public class CustomerServiceTest
                 {
                     for(Coupon coupon : coupons)
                     {
-                        customerService.purchaseCoupon(coupon.getId());
+                        try
+                        {
+                            customerService.purchaseCoupon(coupon.getId());
+                        }
+                        catch(Exception e)
+                        {
+                            logger.log(e.getMessage());
+                        }
                     }
                 }
             }
@@ -181,11 +188,19 @@ public class CustomerServiceTest
             CustomerService customerService = loginCustomer(customer.getEmail(), customer.getPassword());
             if(customerService != null)
             {
-                Customer customerInDB = customerService.getCustomerDetails();
-                if(customerInDB != null)
+                try
                 {
-                    logger.log(customerInDB.toString());
+                    Customer customerInDB = customerService.getCustomerDetails();
+                    if(customerInDB != null)
+                    {
+                        logger.log(customerInDB.toString());
+                    }
                 }
+                catch(Exception e)
+                {
+                    logger.log(e.getMessage());
+                }
+
             }
         }
     }

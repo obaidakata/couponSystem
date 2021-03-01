@@ -1,15 +1,13 @@
 package com.example.couponsystem.services;
 
 import com.example.couponsystem.tables.Company;
-import com.example.couponsystem.customExceptions.Logger;
+import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.tables.Coupon;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.persistence.Transient;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +42,7 @@ public class CompanyService extends ClientService
     }
 
     @Transactional
-    public void addCoupon(Coupon couponToAdd)
+    public void addCoupon(Coupon couponToAdd) throws Exception
     {
         if(couponToAdd != null)
         {
@@ -74,7 +72,7 @@ public class CompanyService extends ClientService
 
             if(isCouponExistsInCompany)
             {
-                logger.log("This Title is already used!");
+                throw new Exception( "This Title is already used!");
             }
             else
             {
@@ -87,7 +85,7 @@ public class CompanyService extends ClientService
     }
 
     @Transactional
-    public void updateCoupon(Coupon couponToUpdate)
+    public void updateCoupon(Coupon couponToUpdate) throws Exception
     {
         if(couponToUpdate != null)
         {
@@ -105,19 +103,19 @@ public class CompanyService extends ClientService
                     }
                     else
                     {
-                        logger.log("Title");
+                        throw new Exception("Title");
                     }
                 }
             }
             else
             {
-                logger.log("Couldn't find the coupon");
+                throw new Exception("Couldn't find the coupon");
             }
         }
     }
 
     @Transactional
-    public void deleteCoupon(int couponId)
+    public void deleteCoupon(int couponId) throws Exception
     {
         if(couponRepository.existsById(couponId))
         {
@@ -127,7 +125,7 @@ public class CompanyService extends ClientService
         }
         else
         {
-            logger.log("Couldn't find the coupon");
+            throw new Exception("Couldn't find the coupon");
         }
     }
 
@@ -140,7 +138,7 @@ public class CompanyService extends ClientService
         }
         else
         {
-            logger.log("while trying to get company coupons");
+            logger.log("Company don't have coupons");
             return new ArrayList<Coupon>();
         }
     }
@@ -175,16 +173,17 @@ public class CompanyService extends ClientService
         }
     }
 
-    public Company getCompanyDetails()
+    public Company getCompanyDetails() throws Exception
     {
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null)
         {
+
             company.setCoupons(new HashSet<>(getCompanyCoupons()));
         }
         else
         {
-            logger.log("Couldn't get the company details");
+            throw new Exception("Couldn't get the company details");
         }
 
         return company;

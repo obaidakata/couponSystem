@@ -1,13 +1,12 @@
 package com.example.couponsystem.services;
 
 import com.example.couponsystem.tables.*;
-import com.example.couponsystem.customExceptions.Logger;
+import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eCategory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import static java.util.stream.Collectors.toCollection;
@@ -39,7 +38,7 @@ public class CustomerService extends ClientService
         return isLoginSuccessful;
     }
 
-    public void purchaseCoupon(int couponId)
+    public void purchaseCoupon(int couponId) throws Exception
     {
         Coupon coupon = couponRepository.findCouponById(couponId);
         if(coupon != null)
@@ -55,17 +54,17 @@ public class CustomerService extends ClientService
                 }
                 else
                 {
-                    logger.log("Coupon " + coupon.getId() + " expired");
+                    throw new Exception("Coupon " + coupon.getId() + " expired");
                 }
             }
             else
             {
-                logger.log("Coupon " + coupon.getId() + " sold out");
+                throw new Exception("Coupon " + coupon.getId() + " sold out");
             }
         }
         else
         {
-            logger.log("Couldn't find the coupon");
+            throw new Exception("Couldn't find the coupon");
         }
     }
 
@@ -126,7 +125,7 @@ public class CustomerService extends ClientService
         }
     }
 
-    public Customer getCustomerDetails()
+    public Customer getCustomerDetails() throws Exception
     {
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
@@ -135,7 +134,7 @@ public class CustomerService extends ClientService
         }
         else
         {
-            logger.log("Couldn't get the customer details");
+            throw new Exception("Couldn't get the customer details");
         }
 
         return customer;
