@@ -219,10 +219,20 @@ public class CompanyServiceTest
             if(companyService != null)
             {
                 Coupon[] companyCoupons = companiesCoupons.get(company.getName());
+                int x = 0;
                 for(Coupon coupon : companyCoupons)
                 {
-                    LocalDate start = LocalDate.now().withDayOfMonth(22);
-                    LocalDate end  = LocalDate.now().withYear(start.getYear() + 1);
+                    LocalDate start = LocalDate.now().withMonth(2);
+                    LocalDate end;
+                    if(x % 2 == 0)
+                    {
+                        end = LocalDate.now().withDayOfMonth(3);
+                    }
+                    else
+                    {
+                        end = LocalDate.now().withYear(2022);
+                    }
+                    x++;
                     coupon.setStartDate(start);
                     coupon.setEndDate(end);
                     try
