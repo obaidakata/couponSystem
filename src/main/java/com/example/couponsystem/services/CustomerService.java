@@ -162,4 +162,19 @@ public class CustomerService extends ClientService
 
         return coupons;
     }
+
+    public  ArrayList<Coupon> getAllCouponsByCategory(eCategory category)
+    {
+        return getAllCoupons().stream()
+                    .filter(coupon -> coupon.getCategoryID() == category)
+                    .collect(toCollection(ArrayList::new));
+    }
+
+
+    public  ArrayList<Coupon> getAllCouponsByMaxPrice(double price)
+    {
+        return getAllCoupons().stream()
+                .filter(coupon -> coupon.getPrice() < price)
+                .collect(toCollection(ArrayList::new));
+    }
 }

@@ -6,6 +6,7 @@ import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.loginManager.LoginManager;
 import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.services.CustomerService;
+import com.example.couponsystem.tables.Categories;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.Customer;
@@ -149,6 +150,48 @@ public class CustomerController
             try
             {
                 ArrayList<Coupon> coupons = customerService.getAllCoupons();
+                return new ResponseEntity<>(coupons, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
+    }
+
+    @GetMapping(path="/AllCompanies/{category}")
+    public ResponseEntity<ArrayList<Coupon>> getAllCouponsByCategory(@PathVariable("category") eCategory category)
+    {
+        if(customerService != null)
+        {
+            try
+            {
+                ArrayList<Coupon> coupons = customerService.getAllCouponsByCategory(category);
+
+                return new ResponseEntity<>(coupons, HttpStatus.OK);
+            }
+            catch(Exception e)
+            {
+                throw new ApiRequestException(e.getMessage());
+            }
+        }
+        else
+        {
+            throw new ApiRequestException("Must login before");
+        }
+    }
+    @GetMapping(path="/AllCoupons/price/{maxPrice}")
+    public ResponseEntity<ArrayList<Coupon>> getAllCouponsByMaxPrice(@PathVariable("maxPrice") double price)
+    {
+        if(customerService != null)
+        {
+            try
+            {
+                ArrayList<Coupon> coupons = customerService.getAllCouponsByMaxPrice(price);
                 return new ResponseEntity<>(coupons, HttpStatus.OK);
             }
             catch(Exception e)
