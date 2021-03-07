@@ -14,8 +14,13 @@ public class Company
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name="name")
     private String name;
+
+    @Column(name="email")
     private String email;
+
+    @Column(name="password")
     private String password;
 
     @OneToMany(mappedBy ="companyID", fetch = FetchType.EAGER , cascade = CascadeType.ALL)

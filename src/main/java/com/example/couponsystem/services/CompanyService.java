@@ -63,11 +63,6 @@ public class CompanyService extends ClientService
                         }
                     }
                 }
-                else
-                {
-                    //TODO : is not necessary becouse we will not do saveAnd Flush
-                    company.setCoupons(new HashSet<Coupon>(List.of(couponToAdd)));
-                }
             }
 
             if(isCouponExistsInCompany)

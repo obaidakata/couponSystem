@@ -9,6 +9,7 @@ public class Logger
     {
         System.out.println(sentence);
     }
+
     public void log(List arrayList)
     {
         if(arrayList != null)

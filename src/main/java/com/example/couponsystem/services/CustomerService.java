@@ -70,6 +70,7 @@ public class CustomerService extends ClientService
 
     public ArrayList<Coupon> getCustomerCoupons()
     {
+//        TODO: what the fuck
         Customer customer = customerRepository.findCustomerById(customerId);
         ArrayList<Coupon> customerCoupons = new ArrayList<>();
         if(customer != null)
@@ -112,6 +113,7 @@ public class CustomerService extends ClientService
 
     public ArrayList<Coupon> getCustomerCoupons(double maxPrice)
     {
+        //TODO: what the fuck
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
         {
