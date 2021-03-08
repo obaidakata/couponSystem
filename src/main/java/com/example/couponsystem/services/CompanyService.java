@@ -46,34 +46,15 @@ public class CompanyService extends ClientService
     {
         if(couponToAdd != null)
         {
-            couponToAdd.setCompaniesID(companyId);
-            Company company = companyRepository.findCompanyById(companyId);
-            boolean isCouponExistsInCompany = false;
-            if(company != null)
-            {
-                Set<Coupon> companyCoupons = company.getCoupons();
-                if(companyCoupons != null && !companyCoupons.isEmpty())
-                {
-                    for(Coupon companyCoupon : companyCoupons)
-                    {
-                        if(companyCoupon.getTitle().equals(couponToAdd.getTitle()))
-                        {
-                            isCouponExistsInCompany = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if(isCouponExistsInCompany)
-            {
-                throw new Exception( "This Title is already used!");
-            }
-            else
+            if(!couponRepository.existsCouponByCompanyIDAndTitle(companyId, couponToAdd.getTitle()))
             {
                 couponToAdd.setCompaniesID(companyId);
                 couponRepository.saveAndFlush(couponToAdd);
                 logger.log("Adding coupon " + couponToAdd.toString());
+            }
+            else
+            {
+                throw new Exception( "This Title is already used!");
             }
         }
 
@@ -85,20 +66,27 @@ public class CompanyService extends ClientService
         if(couponToUpdate != null)
         {
             Coupon couponInDB = couponRepository.findCouponById(couponToUpdate.getId());
-
             if(couponInDB != null)
             {
-                if(couponInDB.getCompaniesID() == couponToUpdate.getCompaniesID())
+                int couponInDBCompanyId = couponInDB.getCompaniesID();
+                String couponInDBTitle = couponInDB.getTitle();
+                //if couponToUpdate changed title then we should check that the company doesn't have another coupon with this title
+                if(couponInDBCompanyId == couponToUpdate.getCompaniesID())
                 {
-                    logger.log(couponInDB.getTitle() + " " + couponToUpdate.getTitle());
-                    if(couponInDB.getTitle().equals(couponToUpdate.getTitle()))
+                    if(couponToUpdate.getTitle().equals(couponInDBTitle))
                     {
+                        couponRepository.saveAndFlush(couponToUpdate);
+                        logger.log("updating coupon  " + couponToUpdate.toString());
+                    }
+                    else if(!couponRepository.existsCouponByCompanyIDAndTitle(couponInDBCompanyId, couponInDBTitle))
+                    {
+
                         couponRepository.saveAndFlush(couponToUpdate);
                         logger.log("updating coupon  " + couponToUpdate.toString());
                     }
                     else
                     {
-                        throw new Exception("Title");
+                        throw new Exception("This title already exists");
                     }
                 }
             }
@@ -127,45 +115,27 @@ public class CompanyService extends ClientService
     public ArrayList<Coupon> getCompanyCoupons()
     {
         Company company = companyRepository.findCompanyById(companyId);
-        if(company != null && company.getCoupons() != null)
+        ArrayList<Coupon> companyCoupons = null;
+        if(company!= null)
         {
-            return new ArrayList(company.getCoupons());
+            companyCoupons = new ArrayList<>(company.getCoupons());
         }
-        else
-        {
-            logger.log("Company don't have coupons");
-            return new ArrayList<Coupon>();
-        }
+
+        return companyCoupons == null ? new ArrayList<>() : companyCoupons;
     }
 
     public ArrayList<Coupon> getCompanyCoupons(eCategory category)
     {
-        ArrayList<Coupon> coupons = couponRepository.getCouponsByCompanyID(companyId);
-        if(coupons != null)
-        {
-            return coupons.stream()
-                    .filter(coupon -> coupon.getCategoryID() == category)
-                    .collect(toCollection(ArrayList::new));
-        }
-        else
-        {
-            return new ArrayList<Coupon>();
-        }
+        return getCompanyCoupons().stream()
+                .filter(coupon -> coupon.getCategoryID() == category)
+                .collect(toCollection(ArrayList::new));
     }
 
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice)
     {
-        ArrayList<Coupon> coupons = couponRepository.getCouponsByCompanyID(companyId);
-        if(coupons != null)
-        {
-            return coupons.stream()
-                    .filter(coupon -> coupon.getPrice() <= maxPrice)
-                    .collect(toCollection(ArrayList::new));
-        }
-        else
-        {
-            return new ArrayList<Coupon>();
-        }
+        return getCompanyCoupons().stream()
+                .filter(coupon -> coupon.getPrice() <= maxPrice)
+                .collect(toCollection(ArrayList::new));
     }
 
     public Company getCompanyDetails() throws Exception

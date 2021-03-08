@@ -22,7 +22,6 @@ class Test implements CommandLineRunner
     @Override
     public void run(String... args) throws Exception
     {
-
         adminServiceTest.addCompany();
         adminServiceTest.updateCompany();
         adminServiceTest.getAllCompanies();
@@ -47,9 +46,9 @@ class Test implements CommandLineRunner
         companyServiceTest.getCompanyDetails();
 
 //        deleting all data
-//        companyServiceTest.deleteCoupon();
-//        adminServiceTest.deleteCompany();
-//        adminServiceTest.deleteCustomer();
+        companyServiceTest.deleteCoupon();
+        adminServiceTest.deleteCompany();
+        adminServiceTest.deleteCustomer();
     }
 }
 

@@ -55,15 +55,14 @@ public class AdminService extends ClientService
         }
     }
 
+    @Transactional
     public void updateCompany(Company companyToUpdate) throws Exception
     {
         if(companyToUpdate != null)
         {
-            Company company = companyRepository.findCompanyByName(companyToUpdate.getName());
-            if(company != null)
+            if(companyRepository.existsCompanyByIdAndName(companyToUpdate.getId(), companyToUpdate.getName()))
             {
-                company.setPassword(companyToUpdate.getPassword());
-                companyRepository.saveAndFlush(company);
+                companyRepository.saveAndFlush(companyToUpdate);
             }
             else
             {
@@ -75,8 +74,7 @@ public class AdminService extends ClientService
     @Transactional
     public void deleteCompany(int companyId) throws Exception
     {
-        Company company = companyRepository.findCompanyById(companyId);
-        if(company != null)
+        if(companyRepository.existsCompanyById(companyId))
         {
             ArrayList<Coupon> companyCoupons =  couponRepository.getCouponsByCompanyID(companyId);
             if(companyCoupons != null)
@@ -130,17 +128,19 @@ public class AdminService extends ClientService
             }
             else
             {
-                throw new Exception("Exists cutomer with the same email" + customer.getEmail());
+                throw new Exception("Exists customer with the same email" + customer.getEmail());
             }
         }
     }
 
+    @Transactional
     public void updateCustomer(Customer customerToUpdate) throws Exception
     {
-        boolean existCustomerWithTheSameId = customerRepository.existsById(customerToUpdate.getId());
-        if(existCustomerWithTheSameId)
-        {
-            customerRepository.saveAndFlush(customerToUpdate);
+        if(customerToUpdate != null) {
+            boolean existCustomerWithTheSameId = customerRepository.existsById(customerToUpdate.getId());
+            if (existCustomerWithTheSameId) {
+                customerRepository.saveAndFlush(customerToUpdate);
+            }
         }
         else
         {
@@ -148,12 +148,13 @@ public class AdminService extends ClientService
         }
     }
 
+    @Transactional
     public void deleteCustomer(int customerId) throws Exception
     {
-        Customer customer = customerRepository.findCustomerById(customerId);
-        if(customer != null)
+        if(customerRepository.existsCustomerById(customerId))
         {
-            customerRepository.deleteById(customerId);
+            customersVsCouponsRepository.deleteCouponsByCustomerID(customerId);
+            customerRepository.deleteCustomerById(customerId);
         }
         else
         {

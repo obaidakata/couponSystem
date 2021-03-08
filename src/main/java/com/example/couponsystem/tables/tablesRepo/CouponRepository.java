@@ -27,4 +27,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer>
     @Query("DELETE FROM Coupon WHERE endDate < :today")
     void deleteCouponByEndDateBefore(@Param("today") LocalDate today);
 
+    boolean existsCouponByCompanyIDAndTitle(int companyId, String title);
+
 }

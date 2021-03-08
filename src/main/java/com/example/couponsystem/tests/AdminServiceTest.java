@@ -70,19 +70,17 @@ public class AdminServiceTest
         for(Company company : companies)
         {
             CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
-            Integer companyInDBId =  companyService.getCompanyId();
-            if(companyInDBId != null)
-            {
-                company.setId(companyInDBId);
-                company.setName(company.getName().toLowerCase(Locale.ROOT));
-                company.setPassword(company.getPassword().toUpperCase(Locale.ROOT));
-                try
-                {
-                    adminService.updateCompany(company);
-                }
-                catch(Exception e)
-                {
-                    logger.log(e.getMessage());
+            if(companyService != null) {
+                Integer companyInDBId = companyService.getCompanyId();
+                if (companyInDBId != null) {
+                    company.setId(companyInDBId);
+                    company.setName(company.getName().toLowerCase(Locale.ROOT));
+                    company.setPassword(company.getPassword().toUpperCase(Locale.ROOT));
+                    try {
+                        adminService.updateCompany(company);
+                    } catch (Exception e) {
+                        logger.log(e.getMessage());
+                    }
                 }
             }
         }

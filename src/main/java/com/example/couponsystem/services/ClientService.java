@@ -12,7 +12,7 @@ import java.util.Hashtable;
 
 public abstract class ClientService
 {
-//    maybe it's better to put @Autowired here
+
     protected CompanyRepository companyRepository;
     protected CouponRepository couponRepository;
     protected CustomerRepository customerRepository;

@@ -17,4 +17,12 @@ public interface CustomersVsCouponsRepository extends JpaRepository<CustomersVsC
 
         @Query("SELECT u.couponID FROM CustomersVsCoupons u WHERE u.customerID = :customerID")
         ArrayList<Integer> getCouponsIdByCustomerID(@Param("customerID") int customerID);
+
+
+        @Modifying
+        @Query("DELETE FROM CustomersVsCoupons u WHERE u.customerID = :customerID")
+        void deleteCouponsByCustomerID(@Param("customerID") int customerID);
+
+        boolean existsCustomersVsCouponsByCouponIDAndCustomerID(int couponId, int customerId);
+
 }

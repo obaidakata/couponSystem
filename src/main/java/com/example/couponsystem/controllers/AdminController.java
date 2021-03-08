@@ -96,7 +96,6 @@ public class AdminController
         {
             throw new ApiRequestException("Must login before");
         }
-
     }
 
     @GetMapping("/company/all")
