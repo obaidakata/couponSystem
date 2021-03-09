@@ -48,7 +48,7 @@ class Test implements CommandLineRunner
 //        deleting all data
         companyServiceTest.deleteCoupon();
         adminServiceTest.deleteCompany();
-        adminServiceTest.deleteCustomer();
+//        adminServiceTest.deleteCustomer();
     }
 }
 

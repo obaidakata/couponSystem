@@ -93,16 +93,14 @@ public class AdminServiceTest
         for(Company company : companies)
         {
             CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
-            Integer companyInDBId =  companyService.getCompanyId();
-            if(companyInDBId != null)
-            {
-                try
-                {
-                    adminService.deleteCompany(companyInDBId);
-                }
-                catch(Exception e)
-                {
-                    logger.log(e.getMessage());
+            if(companyService != null) {
+                Integer companyInDBId = companyService.getCompanyId();
+                if (companyInDBId != null) {
+                    try {
+                        adminService.deleteCompany(companyInDBId);
+                    } catch (Exception e) {
+                        logger.log(e.getMessage());
+                    }
                 }
             }
         }
@@ -120,13 +118,13 @@ public class AdminServiceTest
         for(Company company : companies)
         {
             CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(),company.getPassword(), eClientType.Company);
-            Integer companyInDBId =  companyService.getCompanyId();
-            if(companyInDBId != null)
-            {
-                Company companyFromDB = adminService.getOneCompany(companyInDBId);
-                if(companyFromDB != null)
-                {
-                    logger.log(companyFromDB.toString());
+            if(companyService != null) {
+                Integer companyInDBId = companyService.getCompanyId();
+                if (companyInDBId != null) {
+                    Company companyFromDB = adminService.getOneCompany(companyInDBId);
+                    if (companyFromDB != null) {
+                        logger.log(companyFromDB.toString());
+                    }
                 }
             }
         }
@@ -156,18 +154,16 @@ public class AdminServiceTest
         for(Customer customer : customers)
         {
             CustomerService customerService = (CustomerService) loginManager.login(customer.getEmail(),customer.getPassword(), eClientType.Customer);
-            Integer customerInDBId = customerService.getCustomerId();
-            if(customerInDBId != null)
-            {
-                customer.setId(customerService.getCustomerId());
-                customer.setFirstName(customer.getFirstName().toLowerCase(Locale.ROOT));
-                try
-                {
-                    adminService.updateCustomer(customer);
-                }
-                catch(Exception e)
-                {
-                    logger.log(e.getMessage());
+            if(customerService != null) {
+                Integer customerInDBId = customerService.getCustomerId();
+                if (customerInDBId != null) {
+                    customer.setId(customerService.getCustomerId());
+                    customer.setFirstName(customer.getFirstName().toLowerCase(Locale.ROOT));
+                    try {
+                        adminService.updateCustomer(customer);
+                    } catch (Exception e) {
+                        logger.log(e.getMessage());
+                    }
                 }
             }
         }
@@ -180,16 +176,14 @@ public class AdminServiceTest
         for(Customer customer : customers)
         {
             CustomerService customerService = (CustomerService) loginManager.login(customer.getEmail(),customer.getPassword(), eClientType.Customer);
-            Integer customerInDBId = customerService.getCustomerId();
-            if(customerInDBId != null)
-            {
-                try
-                {
-                    adminService.deleteCustomer(customerInDBId);
-                }
-                catch(Exception e)
-                {
-                    logger.log(e.getMessage());
+            if(customerService != null) {
+                Integer customerInDBId = customerService.getCustomerId();
+                if (customerInDBId != null) {
+                    try {
+                        adminService.deleteCustomer(customerInDBId);
+                    } catch (Exception e) {
+                        logger.log(e.getMessage());
+                    }
                 }
             }
         }
@@ -206,13 +200,13 @@ public class AdminServiceTest
         for(Customer customer : customers)
         {
             CustomerService customerService = (CustomerService) loginManager.login(customer.getEmail(),customer.getPassword(), eClientType.Customer);
-            Integer customerInDBId = customerService.getCustomerId();
-            if(customerInDBId != null)
-            {
-                Customer customerInDB = adminService.getOneCustomer(customerInDBId);
-                if(customerInDB != null)
-                {
-                    logger.log(customerInDB.toString());
+            if(customerService != null) {
+                Integer customerInDBId = customerService.getCustomerId();
+                if (customerInDBId != null) {
+                    Customer customerInDB = adminService.getOneCustomer(customerInDBId);
+                    if (customerInDB != null) {
+                        logger.log(customerInDB.toString());
+                    }
                 }
             }
         }
