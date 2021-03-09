@@ -50,7 +50,7 @@ public class CustomerService extends ClientService
             {
                 if(!coupon.isCouponExpired())
                 {
-                    if(customersVsCouponsRepository.existsCustomersVsCouponsByCouponIDAndCustomerID(customerId, couponId)) {
+                    if(!customersVsCouponsRepository.existsCustomersVsCouponsByCouponIDAndCustomerID(customerId, couponId)) {
                         coupon.purchase();
                         couponRepository.saveAndFlush(coupon);
                         customersVsCouponsRepository.saveAndFlush(new CustomersVsCoupons(couponId, customerId));
