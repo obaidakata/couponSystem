@@ -75,7 +75,6 @@ public class AdminServiceTest
                 if (companyInDBId != null) {
                     company.setId(companyInDBId);
                     company.setName(company.getName().toLowerCase(Locale.ROOT));
-                    company.setPassword(company.getPassword().toUpperCase(Locale.ROOT));
                     try {
                         adminService.updateCompany(company);
                     } catch (Exception e) {

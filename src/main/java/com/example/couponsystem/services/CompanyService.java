@@ -1,5 +1,6 @@
 package com.example.couponsystem.services;
 
+import com.example.couponsystem.customExceptions.ServiceException;
 import com.example.couponsystem.tables.Company;
 import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eCategory;
@@ -10,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -42,7 +41,7 @@ public class CompanyService extends ClientService
     }
 
     @Transactional
-    public void addCoupon(Coupon couponToAdd) throws Exception
+    public void addCoupon(Coupon couponToAdd)
     {
         if(couponToAdd != null)
         {
@@ -54,14 +53,14 @@ public class CompanyService extends ClientService
             }
             else
             {
-                throw new Exception( "This Title is already used!");
+                throw new RuntimeException("This Title is already used!");
             }
         }
 
     }
 
     @Transactional
-    public void updateCoupon(Coupon couponToUpdate) throws Exception
+    public void updateCoupon(Coupon couponToUpdate)
     {
         if(couponToUpdate != null)
         {
@@ -86,19 +85,19 @@ public class CompanyService extends ClientService
                     }
                     else
                     {
-                        throw new Exception("This title already exists");
+                        throw new ServiceException("This title already exists");
                     }
                 }
             }
             else
             {
-                throw new Exception("Couldn't find the coupon");
+                throw new ServiceException("Couldn't find the coupon");
             }
         }
     }
 
     @Transactional
-    public void deleteCoupon(int couponId) throws Exception
+    public void deleteCoupon(int couponId)
     {
         if(couponRepository.existsById(couponId))
         {
@@ -108,7 +107,7 @@ public class CompanyService extends ClientService
         }
         else
         {
-            throw new Exception("Couldn't find the coupon");
+            throw new ServiceException("Couldn't find the coupon");
         }
     }
 
@@ -138,7 +137,7 @@ public class CompanyService extends ClientService
                 .collect(toCollection(ArrayList::new));
     }
 
-    public Company getCompanyDetails() throws Exception
+    public Company getCompanyDetails()
     {
         Company company = companyRepository.findCompanyById(companyId);
         if(company != null)
@@ -148,7 +147,7 @@ public class CompanyService extends ClientService
         }
         else
         {
-            throw new Exception("Couldn't get the company details");
+            throw new ServiceException("Couldn't get the company details");
         }
 
         return company;

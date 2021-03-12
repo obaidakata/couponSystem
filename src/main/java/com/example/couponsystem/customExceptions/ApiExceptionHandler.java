@@ -11,14 +11,26 @@ import java.time.ZonedDateTime;
 @ControllerAdvice
 public class ApiExceptionHandler
 {
-    @ExceptionHandler(value = {ApiRequestException.class})
-    public ResponseEntity<Object> handleApiRequestException(ApiRequestException e){
-            ApiException apiException =  new ApiException(
-                                e.getMessage(),
-                                e,
-                                HttpStatus.BAD_REQUEST,
-                                ZonedDateTime.now(ZoneId.of("Z"))
-                        );
-            return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(value = {TokenExpiredException.class})
+    public ResponseEntity<Object> handleTokenExpiredException(TokenExpiredException e){
+        ApiException apiException =  new ApiException(
+                e.getMessage(),
+                e,
+                HttpStatus.REQUEST_TIMEOUT,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+
+        return new ResponseEntity<>(apiException, HttpStatus.REQUEST_TIMEOUT);
+    }
+
+    @ExceptionHandler(value = {ServiceException.class})
+    public ResponseEntity<Object> handleServiceException(ServiceException e){
+        ApiException apiException =  new ApiException(
+                e.getMessage(),
+                e,
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 }

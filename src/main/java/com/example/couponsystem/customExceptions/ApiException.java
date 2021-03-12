@@ -22,6 +22,7 @@ public class ApiException
         this.timestamp = timestamp;
     }
 
+
     public String getMessage()
     {
         return message;

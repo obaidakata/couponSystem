@@ -1,12 +1,10 @@
 package com.example.couponsystem.dailyJob;
 
 
+import com.example.couponsystem.tables.Coupon;
 import com.example.couponsystem.tables.tablesRepo.CouponRepository;
 import com.example.couponsystem.tables.tablesRepo.CustomersVsCouponsRepository;
-import com.example.couponsystem.utiles.Logger;
-import com.example.couponsystem.tables.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 @Component
@@ -28,11 +25,8 @@ public class CouponExpirationDailyJob
     @Autowired
     private CustomersVsCouponsRepository customersVsCouponsRepository;
 
-
-    private Logger logger = new Logger();
-
     @Transactional
-    @Scheduled(cron = "0 0 12 * * *")
+    @Scheduled(cron = "0 0 20 * * *")
     public void removeAllExpiredCoupons()
     {
         LocalDate today = LocalDate.now();

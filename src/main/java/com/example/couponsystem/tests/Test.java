@@ -1,6 +1,7 @@
 package com.example.couponsystem.tests;
 
 import com.example.couponsystem.loginManager.LoginManager;
+import com.example.couponsystem.utiles.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +19,8 @@ class Test implements CommandLineRunner
     private CompanyServiceTest companyServiceTest;
     @Autowired
     private CustomerServiceTest customerServiceTest;
+
+    private Logger logger = new Logger();
 
     @Override
     public void run(String... args) throws Exception
@@ -48,7 +51,8 @@ class Test implements CommandLineRunner
 //        deleting all data
         companyServiceTest.deleteCoupon();
         adminServiceTest.deleteCompany();
-//        adminServiceTest.deleteCustomer();
+        adminServiceTest.deleteCustomer();
+        logger.log("Test finished");
     }
 }
 

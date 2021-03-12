@@ -1,5 +1,8 @@
 package com.example.couponsystem.loginManager;
 
+import com.example.couponsystem.Jwt.TokensManager;
+import com.example.couponsystem.Jwt.UserNameAndPasswordAuthenticationRequest;
+import com.example.couponsystem.customExceptions.TokenExpiredException;
 import com.example.couponsystem.enums.eClientType;
 import com.example.couponsystem.services.AdminService;
 import com.example.couponsystem.services.ClientService;
@@ -20,8 +23,10 @@ public class LoginManager
     @Autowired
     private CustomerService customerService;
 
-    private LoginManager(){
+    @Autowired
+    private TokensManager tokensManager;
 
+    private LoginManager(){
     }
 
     public ClientService login(String email, String password, eClientType clientType)
@@ -46,6 +51,17 @@ public class LoginManager
             {
                 clientToReturn = null;
             }
+        }
+
+        return clientToReturn;
+    }
+
+    public ClientService loginWithToken(String  token, eClientType clientType) throws TokenExpiredException{
+        UserNameAndPasswordAuthenticationRequest userDetails = tokensManager.verifyToken(token);
+        ClientService clientToReturn = null;
+        if(userDetails != null)
+        {
+            clientToReturn =  login(userDetails.getEmail(), userDetails.getPassword(), clientType);
         }
 
         return clientToReturn;

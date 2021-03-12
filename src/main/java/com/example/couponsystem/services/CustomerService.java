@@ -1,5 +1,6 @@
 package com.example.couponsystem.services;
 
+import com.example.couponsystem.customExceptions.ServiceException;
 import com.example.couponsystem.tables.*;
 import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eCategory;
@@ -41,7 +42,7 @@ public class CustomerService extends ClientService
     }
 
     @Transactional
-    public void purchaseCoupon(int couponId) throws Exception
+    public void purchaseCoupon(int couponId)
     {
         Coupon coupon = couponRepository.findCouponById(couponId);
         if(coupon != null)
@@ -58,22 +59,22 @@ public class CustomerService extends ClientService
                     }
                     else
                     {
-                        throw new Exception("Coupon purchased before");
+                        throw new ServiceException("Coupon purchased before");
                     }
                 }
                 else
                 {
-                    throw new Exception("Coupon " + coupon.getId() + " expired");
+                    throw new ServiceException("Coupon " + coupon.getId() + " expired");
                 }
             }
             else
             {
-                throw new Exception("Coupon " + coupon.getId() + " sold out");
+                throw new ServiceException("Coupon " + coupon.getId() + " sold out");
             }
         }
         else
         {
-            throw new Exception("Couldn't find the coupon");
+            throw new ServiceException("Couldn't find the coupon");
         }
     }
 
@@ -117,7 +118,7 @@ public class CustomerService extends ClientService
                 .collect(toCollection(ArrayList::new));
     }
 
-    public Customer getCustomerDetails() throws Exception
+    public Customer getCustomerDetails()
     {
         Customer customer = customerRepository.findCustomerById(customerId);
         if(customer != null)
@@ -126,7 +127,7 @@ public class CustomerService extends ClientService
         }
         else
         {
-            throw new Exception("Couldn't get the customer details");
+            throw new ServiceException("Couldn't get the customer details");
         }
 
         return customer;

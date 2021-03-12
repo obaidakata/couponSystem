@@ -1,5 +1,6 @@
 package com.example.couponsystem.tests;
 
+import com.example.couponsystem.services.CompanyService;
 import com.example.couponsystem.utiles.Logger;
 import com.example.couponsystem.enums.eCategory;
 import com.example.couponsystem.enums.eClientType;
@@ -27,7 +28,6 @@ public class CustomerServiceTest
     private Logger logger = new Logger();
     private Customer[] customers;
     private Company[] companies;
-    private ArrayList<Coupon> coupons;
 
     @Autowired
     public CustomerServiceTest(LoginManager loginManager)
@@ -35,64 +35,6 @@ public class CustomerServiceTest
         this.loginManager = loginManager;
     }
 
-    private void initCoupons()
-    {
-        AdminService adminService = (AdminService) loginManager.login("admin@admin.com", "admin", eClientType.Administrator);
-        Company kfc = adminService.getCompanyByName("KFC");
-        if(kfc == null)
-        {
-            return;
-        }
-
-        int kfcId = kfc.getId();
-        coupons = new ArrayList<>();
-        coupons.add(new Coupon(1,
-                kfcId,
-                eCategory.Food,
-                "5 Nagets",
-                "Chicken Naget Description",
-                LocalDate.of(2019, Month.MARCH, 1),
-                LocalDate.of(2021, Month.MARCH, 20),
-                2,
-                60.90,
-                "KFC_5_Nagets.png"));
-
-        coupons.add(new Coupon(
-                        2,
-                        kfcId,
-                        eCategory.Food,
-                        "4 Nagets",
-                        "Chicken Naget Description",
-                        LocalDate.of(2019, Month.MARCH,20),
-                        LocalDate.of(2021, Month.FEBRUARY,5),
-                        2,
-                        44.90,
-                        "KFC_4_Nagets.png"));
-
-        coupons.add(new Coupon(
-                        3,
-                        kfcId,
-                        eCategory.Restaurant,
-                        "Family dinner",
-                        "Chicken Breast and Naget Description",
-                        LocalDate.of(2020, Month.DECEMBER,1),
-                        LocalDate.of(2021, Month.FEBRUARY,10),
-                        5,
-                        80.90,
-                        "KFC_4_Family_Dinner.png"));
-
-        coupons.add(new Coupon(
-                        4,
-                        kfcId,
-                        eCategory.Electricity,
-                        "test for delete",
-                        "Will be deleted",
-                        LocalDate.of(2020, Month.DECEMBER,1),
-                        LocalDate.of(2021, Month.FEBRUARY,8),
-                        2,
-                        80.90,
-                        "KFC_4_Family_Dinner.png"));
-    }
 
     public void initData()
     {
@@ -103,9 +45,9 @@ public class CustomerServiceTest
         };
 
         companies = new Company[]{
-                new Company(1, "KFC", "company1@gmail.com", "customer4"),
-                new Company( 2, "Vic",  "company2@gmail.com", "customer4"),
-                new Company(3, "MCD",  "company3@gmail.com", "customer4")
+                new Company("KFC", "company1@gmail.com", "company1"),
+                new Company("Vic", "company2@gmail.com", "company2"),
+                new Company("MCD", "company3@gmail.com", "company3")
         };
     }
 
@@ -117,23 +59,23 @@ public class CustomerServiceTest
     public void purchaseCoupon()
     {
         initData();
-        initCoupons();
         for(Customer customer :customers)
         {
             CustomerService customerService = loginCustomer(customer.getEmail(), customer.getPassword());
             if(customerService != null)
             {
-                if(coupons != null)
-                {
-                    for(Coupon coupon : coupons)
-                    {
-                        try
-                        {
-                            customerService.purchaseCoupon(coupon.getId());
-                        }
-                        catch(Exception e)
-                        {
-                            logger.log(e.getMessage());
+                for(Company company: companies) {
+                    CompanyService companyService = (CompanyService) loginManager.login(company.getEmail(), company.getPassword(), eClientType.Company);
+                    if(companyService != null) {
+                        ArrayList<Coupon> companyCoupons = companyService.getCompanyCoupons();
+                        if (companyCoupons != null) {
+                            for (Coupon coupon : companyCoupons) {
+                                try {
+                                    customerService.purchaseCoupon(coupon.getId());
+                                } catch (Exception e) {
+                                    logger.log(e.getMessage());
+                                }
+                            }
                         }
                     }
                 }

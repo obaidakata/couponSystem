@@ -40,7 +40,6 @@ public class Coupon
     @Column(name = "categories_id")
     private eCategory categoryID;
 
-
     public Coupon(int id, int companiesID, eCategory categoryID, String title, String description, LocalDate startDate, LocalDate endDate, int amount, double price, String image)
     {
         this.id = id;
